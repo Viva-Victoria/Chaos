@@ -17,7 +17,7 @@ namespace VivaVictoria.Chaos.Models
         public long Version { get; }
         public string Name { get; }
         public TransactionMode TransactionMode { get; }
-        public string UpScript { get; }
-        public string DownScript { get; }
+        public string UpScript { get; set; }
+        public string DownScript { get; set; }
     }
 }
