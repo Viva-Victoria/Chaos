@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>VivaVictoria.Chaos.PostgreSQL</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\VivaVictoria.Chaos.Logging\VivaVictoria.Chaos.Logging.csproj" />
+        <ProjectReference Include="..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapper" Version="2.0.90" />
+        <PackageReference Include="Npgsql" Version="6.0.0-preview7" />
+    </ItemGroup>
+</Project>

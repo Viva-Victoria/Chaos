@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VivaVictoria.Chaos", "VivaVictoria.Chaos\VivaVictoria.Chaos.csproj", "{28669A11-8420-4D71-9CA5-9389D3AE2223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VivaVictoria.Chaos.Reflection", "VivaVictoria.Chaos.Reflection\VivaVictoria.Chaos.Reflection.csproj", "{BB780A5A-02EE-4FA1-B1F4-9C67C2A977C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VivaVictoria.Chaos.PostgreSQL", "VivaVictoria.Chaos.PostgreSQL\VivaVictoria.Chaos.PostgreSQL.csproj", "{2C550AEB-6FB7-40AA-84AB-0F798CC44BE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VivaVictoria.Chaos.Logging.Console", "VivaVictoria.Chaos.Logging.Console\VivaVictoria.Chaos.Logging.Console.csproj", "{640EEB17-8227-4D7C-AD90-40C0D4718D64}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{4771F6B1-EFE9-4DDB-BFB6-25B1F640788C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VivaVictoria.Chaos.Logging", "VivaVictoria.Chaos.Logging\VivaVictoria.Chaos.Logging.csproj", "{A4A2CF49-D059-413B-9F11-240D315247DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28669A11-8420-4D71-9CA5-9389D3AE2223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28669A11-8420-4D71-9CA5-9389D3AE2223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28669A11-8420-4D71-9CA5-9389D3AE2223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28669A11-8420-4D71-9CA5-9389D3AE2223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB780A5A-02EE-4FA1-B1F4-9C67C2A977C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB780A5A-02EE-4FA1-B1F4-9C67C2A977C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB780A5A-02EE-4FA1-B1F4-9C67C2A977C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB780A5A-02EE-4FA1-B1F4-9C67C2A977C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C550AEB-6FB7-40AA-84AB-0F798CC44BE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C550AEB-6FB7-40AA-84AB-0F798CC44BE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C550AEB-6FB7-40AA-84AB-0F798CC44BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C550AEB-6FB7-40AA-84AB-0F798CC44BE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{640EEB17-8227-4D7C-AD90-40C0D4718D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{640EEB17-8227-4D7C-AD90-40C0D4718D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{640EEB17-8227-4D7C-AD90-40C0D4718D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{640EEB17-8227-4D7C-AD90-40C0D4718D64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4A2CF49-D059-413B-9F11-240D315247DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4A2CF49-D059-413B-9F11-240D315247DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4A2CF49-D059-413B-9F11-240D315247DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4A2CF49-D059-413B-9F11-240D315247DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{640EEB17-8227-4D7C-AD90-40C0D4718D64} = {4771F6B1-EFE9-4DDB-BFB6-25B1F640788C}
+		{A4A2CF49-D059-413B-9F11-240D315247DF} = {4771F6B1-EFE9-4DDB-BFB6-25B1F640788C}
+	EndGlobalSection
+EndGlobal
