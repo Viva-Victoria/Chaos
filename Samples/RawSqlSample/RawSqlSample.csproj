@@ -10,9 +10,6 @@
       <ProjectReference Include="..\..\VivaVictoria.Chaos.PostgreSQL\VivaVictoria.Chaos.PostgreSQL.csproj" />
       <ProjectReference Include="..\..\VivaVictoria.Chaos.RawSql\VivaVictoria.Chaos.RawSql.csproj" />
       <ProjectReference Include="..\..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
-      <ProjectReference Include="..\VivaVictoria.Chaos.Logging.Console\VivaVictoria.Chaos.Logging.Console.csproj" />
-      <ProjectReference Include="..\VivaVictoria.Chaos.PostgreSQL\VivaVictoria.Chaos.PostgreSQL.csproj" />
-      <ProjectReference Include="..\VivaVictoria.Chaos.RawSql\VivaVictoria.Chaos.RawSql.csproj" />
     </ItemGroup>
 
     <ItemGroup>
