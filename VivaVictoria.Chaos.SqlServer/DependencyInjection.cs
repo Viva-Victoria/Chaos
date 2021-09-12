@@ -3,15 +3,15 @@ using VivaVictoria.Chaos.Dapper;
 using VivaVictoria.Chaos.Dapper.Interfaces;
 using VivaVictoria.Chaos.Interfaces;
 
-namespace VivaVictoria.Chaos.PostgreSql
+namespace VivaVictoria.Chaos.SqlServer
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection RegisterChaosPostgres(this IServiceCollection collection)
+        public static IServiceCollection RegisterChaosSqlServer(this IServiceCollection collection)
         {
             return collection
-                .AddTransient<IMetadata, PostgresMetadata>()
-                .AddTransient<IConnectionProvider, PostgresProvider>()
+                .AddTransient<IMetadata, SqlServerMetadata>()
+                .AddTransient<IConnectionProvider, SqlServerProvider>()
                 .AddTransient<IMigrator, DapperMigrator>();
         }
     }

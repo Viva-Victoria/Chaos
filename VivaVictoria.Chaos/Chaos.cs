@@ -6,24 +6,26 @@ using VivaVictoria.Chaos.Interfaces;
 
 namespace VivaVictoria.Chaos
 {
-    public class Chaos<TMetadata, TMigrator> : IChaos
-        where TMetadata : IMetadata
-        where TMigrator : IMigrator<TMetadata>
+    public class Chaos : IChaos
     {
         private readonly ISettings settings;
         private readonly ILogger logger;
         private readonly IMigrationReader migrationReader;
-        private TMigrator migrator;
+        private IMigrator migrator;
 
-        public Chaos(ISettings settings, TMetadata metadata, ILogger logger, IMigrationReader migrationReader,
-            TMigrator migrator)
+        public Chaos(ISettings settings, IMetadata metadata, ILogger logger, IMigrationReader migrationReader, IMigrator migrator)
         {
-            this.settings = settings ?? throw new NullReferenceException("Settings is null");
-            this.logger = logger ?? throw new NullReferenceException("Logger is null");
-            this.migrationReader = migrationReader ?? throw new NullReferenceException("MigrationReader is null");
-            this.migrator = migrator ?? throw new NullReferenceException("Migrator is null");
+            this.settings = settings ?? 
+                            throw new NullReferenceException("Settings is null");
+            this.logger = logger ?? 
+                          throw new NullReferenceException("Logger is null");
+            this.migrationReader = migrationReader ?? 
+                                   throw new NullReferenceException("MigrationReader is null");
+            this.migrator = migrator ?? 
+                            throw new NullReferenceException("Migrator is null");
 
-            metadata = metadata ?? throw new NullReferenceException("Metadata is null");
+            metadata = metadata ?? 
+                       throw new NullReferenceException("Metadata is null");
             migrator.Prepare(settings.ConnectionString, metadata, logger);
         }
 

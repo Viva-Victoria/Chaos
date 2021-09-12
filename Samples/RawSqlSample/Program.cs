@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VivaVictoria.Chaos;
-using VivaVictoria.Chaos.Enums;
+using VivaVictoria.Chaos.Dapper;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Logging.Console;
-using VivaVictoria.Chaos.PostgreSQL;
+using VivaVictoria.Chaos.PostgreSql;
 using VivaVictoria.Chaos.RawSql;
 
 namespace WebApplication
@@ -29,7 +29,7 @@ namespace WebApplication
             /*
              * Now you can build Chaos via ChaosBuilder
              */
-            var chaos = new ChaosBuilder<PostgresMetadata, PostgresMigrator>()
+            var chaos = new ChaosBuilder()
                 .Resolve(services.BuildServiceProvider())
                 .Build();
             
