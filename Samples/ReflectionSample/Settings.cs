@@ -1,7 +1,7 @@
 ﻿using VivaVictoria.Chaos.Enums;
 using VivaVictoria.Chaos.Interfaces;
 
-namespace RawSqlSample
+namespace ReflectionSample
 {
     public class Settings : ISettings
     {

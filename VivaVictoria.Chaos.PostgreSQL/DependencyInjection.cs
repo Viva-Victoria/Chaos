@@ -7,12 +7,25 @@ namespace VivaVictoria.Chaos.PostgreSql
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection RegisterChaosPostgres(this IServiceCollection collection)
+        public static IServiceCollection AddChaosPostgres(this IServiceCollection collection)
+        {
+            return collection.AddChaosPostgres<PostgresMetadata, PostgresProvider>();
+        }
+
+        public static IServiceCollection AddChaosPostgres<TMetadata>(this IServiceCollection collection)
+            where TMetadata : PostgresMetadata
+        {
+            return collection.AddChaosPostgres<TMetadata, PostgresProvider>();
+        }
+
+        public static IServiceCollection AddChaosPostgres<TMetadata, TConnectionProvider>(this IServiceCollection collection)
+            where TMetadata : PostgresMetadata
+            where TConnectionProvider : PostgresProvider
         {
             return collection
-                .AddTransient<IMetadata, PostgresMetadata>()
-                .AddTransient<IConnectionProvider, PostgresProvider>()
-                .AddTransient<IMigrator, DapperMigrator>();
+                .AddTransient<IMetadata, TMetadata>()
+                .AddTransient<IConnectionProvider, TConnectionProvider>()
+                .AddChaosDapper();
         }
     }
 }

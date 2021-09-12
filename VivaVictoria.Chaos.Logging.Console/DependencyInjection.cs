@@ -7,7 +7,7 @@ namespace VivaVictoria.Chaos.Logging.Console
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection RegisterChaosConsoleLogger(this IServiceCollection collection, Action<IChaosLogger> configure = null)
+        public static IServiceCollection AddChaosConsoleLogger(this IServiceCollection collection, Action<IChaosLogger> configure = null)
         {
             return collection.AddSingleton<ILogger, ConsoleLogger>(p =>
             {

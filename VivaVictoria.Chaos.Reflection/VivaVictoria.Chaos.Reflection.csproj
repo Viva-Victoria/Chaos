@@ -13,11 +13,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="$(SolutionDir)/LICENSE" Pack="true" PackagePath=""/>
+        <None Include="$(SolutionDir)/LICENSE" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj"/>
+        <ProjectReference Include="..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
     </ItemGroup>
 
 </Project>

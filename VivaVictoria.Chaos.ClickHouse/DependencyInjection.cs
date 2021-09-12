@@ -7,7 +7,7 @@ namespace VivaVictoria.Chaos.ClickHouse
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection RegisterChaosClickHouse(this IServiceCollection collection)
+        public static IServiceCollection AddChaosClickHouse(this IServiceCollection collection)
         {
             return collection
                 .AddTransient<IMetadata, ClickHouseMetadata>()

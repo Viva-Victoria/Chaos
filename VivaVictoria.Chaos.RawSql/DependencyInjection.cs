@@ -5,7 +5,7 @@ namespace VivaVictoria.Chaos.RawSql
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection RegisterChaosRawSql(this IServiceCollection collection, string path)
+        public static IServiceCollection AddChaosRawSql(this IServiceCollection collection, string path)
         {
             return collection.AddTransient<IMigrationReader, RawSqlMigrationReader>(p => new RawSqlMigrationReader(path));
         }

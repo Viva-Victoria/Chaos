@@ -68,8 +68,16 @@ values
         {
             using var conn = Connect();
             using var transaction = conn.BeginTransaction();
-            conn.Execute(migration);
-            transaction.Commit();
+            try
+            {
+                conn.Execute(migration);
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
     }
 }

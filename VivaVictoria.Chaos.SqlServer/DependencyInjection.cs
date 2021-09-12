@@ -7,12 +7,25 @@ namespace VivaVictoria.Chaos.SqlServer
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection RegisterChaosSqlServer(this IServiceCollection collection)
+        public static IServiceCollection AddChaosSqlServer(this IServiceCollection collection)
+        {
+            return collection.AddChaosSqlServer<SqlServerMetadata, SqlServerProvider>();
+        }
+
+        public static IServiceCollection AddChaosSqlServer<TMetadata>(this IServiceCollection collection)
+            where TMetadata : SqlServerMetadata
+        {
+            return collection.AddChaosSqlServer<TMetadata, SqlServerProvider>();
+        }
+        
+        public static IServiceCollection AddChaosSqlServer<TMetadata, TConnectionProvider>(this IServiceCollection collection)
+            where TMetadata : SqlServerMetadata
+            where TConnectionProvider : SqlServerProvider
         {
             return collection
-                .AddTransient<IMetadata, SqlServerMetadata>()
-                .AddTransient<IConnectionProvider, SqlServerProvider>()
-                .AddTransient<IMigrator, DapperMigrator>();
+                .AddTransient<IMetadata, TMetadata>()
+                .AddTransient<IConnectionProvider, TConnectionProvider>()
+                .AddChaosDapper();
         }
     }
 }
