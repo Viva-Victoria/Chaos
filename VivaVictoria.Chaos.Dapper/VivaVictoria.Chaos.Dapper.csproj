@@ -2,7 +2,19 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <PackageId>VivaVictoria.Chaos.Dapper</PackageId>
+        <Version>1.0.0</Version>
+        <PackageTags>VivaVictoria.Chaos;VivaVictoria;Dapper</PackageTags>
+        <Description>
+            Migrator for Chaos tool based on Dapper library. Supports any ADO driver by using IDbConnection from IConnectionProvider.
+        </Description>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="$(SolutionDir)/LICENSE" Pack="true" PackagePath="" />
+    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
