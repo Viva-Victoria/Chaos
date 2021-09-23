@@ -13,6 +13,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="$(SolutionDir)/LICENSE" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="ClickHouse.Ado" Version="1.4.0" />
     </ItemGroup>
 

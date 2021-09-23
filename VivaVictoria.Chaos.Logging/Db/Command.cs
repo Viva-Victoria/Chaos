@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Microsoft.Extensions.Logging;
 
 namespace VivaVictoria.Chaos.Logging.Db
@@ -29,8 +30,8 @@ namespace VivaVictoria.Chaos.Logging.Db
             }
             finally
             {
-                var sql = command.CommandText.ToString();
-                foreach (DbParameter parameter in command.Parameters)
+                var sql = command.CommandText;
+                foreach (IDbDataParameter parameter in command.Parameters)
                 {
                     string value = parameter.Value == null || parameter.Value is DBNull
                         ? "<null>"
@@ -39,7 +40,7 @@ namespace VivaVictoria.Chaos.Logging.Db
                     sql = sql.Replace($"@{parameter.ParameterName}", value);
                 }
                 
-                logger.LogDebug($"Executed\n\t{sql.Replace("\n", "\n\t")}\nTime elapsed {sw.ElapsedMilliseconds}ms\n----------------------");
+                logger.LogDebug($"Executed\n{sql}\nTime elapsed {sw.ElapsedMilliseconds}ms\n----------------------");
             }
 
             return result;

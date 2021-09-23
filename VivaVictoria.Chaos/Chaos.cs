@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using VivaVictoria.Chaos.Dapper.Interfaces;
 using VivaVictoria.Chaos.Enums;
 using VivaVictoria.Chaos.Interfaces;
 
@@ -8,25 +9,27 @@ namespace VivaVictoria.Chaos
 {
     public class Chaos : IChaos
     {
-        private readonly ISettings settings;
         private readonly ILogger logger;
         private readonly IMigrationReader migrationReader;
-        private IMigrator migrator;
+        private readonly IMigrator migrator;
 
-        public Chaos(ISettings settings, IMetadata metadata, ILogger logger, IMigrationReader migrationReader, IMigrator migrator)
+        public Chaos(
+            ILogger logger, 
+            IMigrationReader migrationReader,
+            IMigrator migrator)
         {
-            this.settings = settings ?? 
-                            throw new NullReferenceException("Settings is null");
             this.logger = logger ?? 
                           throw new NullReferenceException("Logger is null");
             this.migrationReader = migrationReader ?? 
                                    throw new NullReferenceException("MigrationReader is null");
             this.migrator = migrator ?? 
                             throw new NullReferenceException("Migrator is null");
+        }
 
-            metadata = metadata ?? 
-                       throw new NullReferenceException("Metadata is null");
-            migrator.Prepare(settings.ConnectionString, metadata, logger);
+        public Chaos Init()
+        {
+            migrator.Init();
+            return this;
         }
 
         public void Up()
@@ -48,35 +51,28 @@ namespace VivaVictoria.Chaos
 
             if (!migrations.Any())
             {
-                logger.Log(LogLevel.Debug, "Database is already up-to-date");
+                logger.Log(LogLevel.Debug, "Database is up-to-date");
                 return;
             }
 
-
-            migrations.Sort((m1, m2) => m1.Version.CompareTo(m2.Version));
+            migrations.Sort();
 
             foreach (var migration in migrations)
             {
-                var transactionMode = migration.TransactionMode == TransactionMode.Default
-                    ? settings.TransactionMode
-                    : migration.TransactionMode;
-
-                var script = up ? migration.UpScript : migration.DownScript;
-                if (transactionMode == TransactionMode.One)
+                try
                 {
-                    logger.Log(LogLevel.Debug,
-                        $"Applying migration {migration.Version} in transaction with script\n{script}");
-                    migrator.ApplyInTransaction(script);
+                    logger.Log(LogLevel.Debug, $"Migrating to {migration.Version}");
+                    migrator.Apply(migration.TransactionMode, up ? migration.UpScript : migration.DownScript);
+                    
+                    logger.Log(LogLevel.Debug, $"Migration applied successfully");
+                    migrator.SetVersion(up ? migration.Version : migration.Version - 1);
+                    logger.Log(LogLevel.Debug, $"Metadata saved");
                 }
-                else
+                catch (Exception e)
                 {
-                    logger.Log(LogLevel.Debug,
-                        $"Applying migration {migration.Version} without transaction with script\n{script}");
-                    migrator.Apply(script);
+                    logger.LogError(e, "Migration failed");
+                    throw;
                 }
-
-                logger.Log(LogLevel.Debug, $"Version {migration.Version} migrated successful");
-                migrator.SetVersion(up ? migration.Version : migration.Version - 1);
             }
         }
     }

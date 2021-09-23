@@ -1,4 +1,4 @@
-﻿namespace VivaVictoria.Chaos.Interfaces
+﻿namespace VivaVictoria.Chaos.Dapper.Interfaces
 {
     public interface IMetadata
     {

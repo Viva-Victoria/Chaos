@@ -1,16 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VivaVictoria.Chaos;
-using VivaVictoria.Chaos.Dapper;
+using Microsoft.Extensions.Logging;
+using VivaVictoria.Chaos.ClickHouse.Extensions;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Logging.Console;
-using VivaVictoria.Chaos.PostgreSql;
-using VivaVictoria.Chaos.PostgreSQL.Extensions;
 using VivaVictoria.Chaos.RawSql;
 
-namespace RawSqlSample
+namespace ClickHouseSample
 {
     public class Program
     {
@@ -18,7 +21,7 @@ namespace RawSqlSample
         {
             var services = new ServiceCollection()
                 .AddTransient<ISettings, Settings>()
-                .AddChaosPostgres()
+                .AddChaosClickHouse()
                 .AddChaosConsoleLogger()
                 .AddChaosRawSql("Migrations")
                 .AddChaosCore();
@@ -28,7 +31,6 @@ namespace RawSqlSample
                 var chaos = scope.GetRequiredService<IChaos>();
                 chaos.Init().Up();
             }
-
             CreateHostBuilder(args).Build().Run();
         }
 

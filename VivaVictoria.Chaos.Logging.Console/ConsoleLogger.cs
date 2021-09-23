@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Threading;
 using Microsoft.Extensions.Logging;
 using VivaVictoria.Chaos.Logging.Interfaces;
 
@@ -7,6 +9,7 @@ namespace VivaVictoria.Chaos.Logging.Console
 {
     public class ConsoleLogger : IChaosLogger
     {
+        private Mutex mutex = new Mutex();
         private Dictionary<LogLevel, bool> levels;
 
         public ConsoleLogger()
@@ -30,6 +33,8 @@ namespace VivaVictoria.Chaos.Logging.Console
             {
                 return;
             }
+
+            mutex.WaitOne();
             
             var description = formatter(state, exception);
             Write(ConsoleColor.DarkGray, $"{DateTime.Now:yyyy-MM-dd hh:mm:ss.fff}");
@@ -54,6 +59,8 @@ namespace VivaVictoria.Chaos.Logging.Console
             
             Write(color, $"{logLevel.ToString().ToUpper()}");
             Write(ConsoleColor.Black, $"] {description} \n");
+            
+            mutex.ReleaseMutex();
         }
 
         private void Write(ConsoleColor color, string message)

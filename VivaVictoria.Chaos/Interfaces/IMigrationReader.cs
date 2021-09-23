@@ -5,6 +5,6 @@ namespace VivaVictoria.Chaos.Interfaces
 {
     public interface IMigrationReader
     {
-        public List<MigrationInfo> Read();
+        public List<Migration> Read();
     }
 }

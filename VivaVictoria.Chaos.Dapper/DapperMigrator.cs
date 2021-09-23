@@ -1,83 +1,90 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Linq;
+using System.Transactions;
 using Dapper;
 using Microsoft.Extensions.Logging;
+using VivaVictoria.Chaos.Dapper.Extensions;
 using VivaVictoria.Chaos.Dapper.Interfaces;
+using VivaVictoria.Chaos.Enums;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Logging.Db;
 
 namespace VivaVictoria.Chaos.Dapper
 {
-    public class DapperMigrator : IMigrator
+    public class DapperMigrator<TMetadata> : IMigrator
+        where TMetadata : IMetadata
     {
-        private string connectionString;
-        private IMetadata metadata;
+        private ISettings settings;
         private ILogger logger;
-        private IConnectionProvider provider;
+        private TMetadata metadata;
+        private IDatabaseDriver<TMetadata> driver;
 
-        public DapperMigrator(IConnectionProvider provider)
+        public DapperMigrator(ISettings settings, ILogger logger, IEnumerable<IMetadata> metadataList, IDatabaseDriver<TMetadata> driver)
         {
-            this.provider = provider;
-        }
-
-        public void Prepare(string connectionString, IMetadata metadata, ILogger logger)
-        {
-            this.connectionString = connectionString;
-            this.metadata = metadata;
-            this.logger = logger;
+            this.settings = settings ?? 
+                            throw new NullReferenceException("Settings is null");
+            this.logger = logger ?? 
+                          throw new NullReferenceException("Logger is null");
+            metadata = metadataList.GetService<IMetadata, TMetadata>() 
+                       ?? throw new NullReferenceException($"Metadata of type {typeof(TMetadata)} required");
+            this.driver = driver;
         }
 
         private IDbConnection Connect()
         {
-            return new Connection(logger, provider.Connect(connectionString));
+            return new Connection(logger, driver.Connect(settings.ConnectionString));
+        }
+
+        public void Init()
+        {
+            using var conn = Connect();
+            conn.Execute(driver.CreateStatement(metadata));
         }
         
         public long GetVersion()
         {
             using var conn = Connect();
-            conn.Execute($@"create table if not exists {metadata.TableName}
-(
-    {metadata.IdColumnName} {metadata.IdColumnType},
-    {metadata.VersionColumnName} {metadata.VersionColumnType},
-    {metadata.DateColumnName} {metadata.DateColumnType},
-    constraint {metadata.TableName}_pk primary key ({metadata.IdColumnName})
-)");
-            return conn.Query<long>($@"select {metadata.VersionColumnName} 
-from {metadata.TableName} 
-order by {metadata.IdColumnName} desc 
-limit 1").FirstOrDefault();
+            return conn.QueryFirstOrDefault<long>(driver.SelectStatement(metadata));
         }
 
         public void SetVersion(long version)
         {
             using var conn = Connect();
-            conn.Execute($@"insert into {metadata.TableName} 
-({metadata.VersionColumnName}, {metadata.DateColumnName})
-values
-({version}, {DateTime.UtcNow})");
+            conn.Execute(driver.InsertStatement(metadata), driver.InsertParameters(DateTime.UtcNow, version));
+        }
+
+        public void Apply(TransactionMode transactionMode, string migration)
+        {
+            if (transactionMode == TransactionMode.Default)
+            {
+                transactionMode = settings.TransactionMode;
+            }
+            if (transactionMode == TransactionMode.One && !driver.IsTransactionSupported())
+            {
+                logger.Log(LogLevel.Warning, $"DatabaseDriver does not support transactions. Migration will be applied without a transaction");
+                transactionMode = TransactionMode.None;
+            }
+
+            switch (transactionMode)
+            {
+                case TransactionMode.None:
+                    Apply(migration);
+                    break;
+                case TransactionMode.One:
+                {
+                    using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+                    Apply(migration);
+                    scope.Complete();
+                    break;
+                }
+            }
         }
 
         public void Apply(string migration)
         {
             using var conn = Connect();
             conn.Execute(migration);
-        }
-
-        public void ApplyInTransaction(string migration)
-        {
-            using var conn = Connect();
-            using var transaction = conn.BeginTransaction();
-            try
-            {
-                conn.Execute(migration);
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                transaction.Rollback();
-                throw;
-            }
         }
     }
 }

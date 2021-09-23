@@ -1,13 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using VivaVictoria.Chaos.Enums;
 
 namespace VivaVictoria.Chaos.Interfaces
 {
     public interface IMigrator
     {
-        public void Prepare(string connectionString, IMetadata metadata, ILogger logger);
+        public void Init();
         public long GetVersion();
-        public void Apply(string migration);
-        public void ApplyInTransaction(string migration);
+        public void Apply(TransactionMode requestedMode, string migration);
         public void SetVersion(long version);
     }
 }

@@ -1,6 +1,6 @@
-﻿using VivaVictoria.Chaos.Interfaces;
+﻿using VivaVictoria.Chaos.Dapper.Interfaces;
 
-namespace VivaVictoria.Chaos.PostgreSql
+namespace VivaVictoria.Chaos.PostgreSQL.Models
 {
     public class PostgresMetadata : IMetadata
     {

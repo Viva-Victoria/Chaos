@@ -28,9 +28,9 @@ namespace VivaVictoria.Chaos.RawSql
             return long.Parse(word[startIndex..]);
         }
         
-        public List<MigrationInfo> Read()
+        public List<Migration> Read()
         {
-            var preloaded = new Dictionary<long, MigrationInfo>();
+            var preloaded = new Dictionary<long, Migration>();
             
             foreach (var filePath in Directory.GetFiles(path))
             {
@@ -47,10 +47,10 @@ namespace VivaVictoria.Chaos.RawSql
                 }
 
                 var script = File.ReadAllText(filePath);
-                MigrationInfo info;
+                Migration info;
                 if (!preloaded.TryGetValue(version, out info))
                 {
-                    info = new MigrationInfo(version, name, TransactionMode.Default, "", "");
+                    info = new Migration(version, name, TransactionMode.Default, "", "");
                     preloaded.Add(version, info);
                 }
 

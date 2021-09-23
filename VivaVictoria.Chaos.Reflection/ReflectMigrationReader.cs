@@ -19,10 +19,10 @@ namespace VivaVictoria.Chaos.Reflection
             this.assembly = assembly;
         }
 
-        public List<MigrationInfo> Read()
+        public List<Migration> Read()
         {
             var migrationTypes = assembly.GetTypes().Where(type => type.GetInterfaces().Contains(typeof(IMigration)));
-            var result = new List<MigrationInfo>();
+            var result = new List<Migration>();
 
             foreach (var type in migrationTypes)
             {
@@ -35,7 +35,7 @@ namespace VivaVictoria.Chaos.Reflection
                 }
 
                 var instance = Activator.CreateInstance(type) as IMigration;
-                result.Add(new MigrationInfo(info.Version, info.Name, info.TransactionMode, instance.Up(),
+                result.Add(new Migration(info.Version, info.Name, info.TransactionMode, instance.Up(),
                     instance.Down()));
             }
 
