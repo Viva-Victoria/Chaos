@@ -8,11 +8,6 @@ namespace VivaVictoria.Chaos.Dapper.Extensions
 {
     public static class DependencyInjection
     {
-        public static TChild GetService<TBase, TChild>(this IEnumerable<TBase> all) where TChild : TBase
-        {
-            var found = all.FirstOrDefault(t => t.GetType() == typeof(TChild));
-            return found == null ? default : (TChild) found;
-        }
         
         public static IServiceCollection AddChaosDapper<TMetadata>(this IServiceCollection collection)
             where TMetadata : IMetadata

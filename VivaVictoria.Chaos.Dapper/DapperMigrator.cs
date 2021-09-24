@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using VivaVictoria.Chaos.Dapper.Extensions;
 using VivaVictoria.Chaos.Dapper.Interfaces;
 using VivaVictoria.Chaos.Enums;
+using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Logging.Db;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using VivaVictoria.Chaos.ClickHouse.Models;
-using VivaVictoria.Chaos.Dapper.Extensions;
 using VivaVictoria.Chaos.Dapper.Interfaces;
+using VivaVictoria.Chaos.Interfaces;
 
 namespace VivaVictoria.Chaos.ClickHouse.Extensions
 {
@@ -11,8 +11,7 @@ namespace VivaVictoria.Chaos.ClickHouse.Extensions
         {
             return collection
                 .AddSingleton<IMetadata, ClickHouseMetadata>()
-                .AddSingleton<IDatabaseDriver<ClickHouseMetadata>, ClickHouseProvider>()
-                .AddChaosDapper<ClickHouseMetadata>();
+                .AddSingleton<IMigrator, ClickHouseMigrator>();
         }
     }
 }
