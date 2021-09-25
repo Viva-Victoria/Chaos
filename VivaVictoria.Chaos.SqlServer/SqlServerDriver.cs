@@ -8,7 +8,7 @@ namespace VivaVictoria.Chaos.SqlServer
 {
     public class SqlServerDriver : IDatabaseDriver<SqlServerMetadata>
     { 
-        public IDbConnection Connect(string connectionString)
+        public IDbConnection Connect(string connectionString, SqlServerMetadata _)
         {
             return new SqlConnection(connectionString);
         }
@@ -16,14 +16,23 @@ namespace VivaVictoria.Chaos.SqlServer
         public bool IsTransactionSupported() => true;
 
         public string CreateStatement(SqlServerMetadata metadata) =>
-@$"if object_id('{metadata.TableName}') is null
-create table {metadata.Schema}.{metadata.TableName}
-(
-    {metadata.IdColumnName} {metadata.IdColumnType} not null identity(1,1),
-    {metadata.VersionColumnName} {metadata.VersionColumnType},
-    {metadata.DateColumnName} {metadata.DateColumnType},
-    constraint PK_{metadata.TableName} primary key ({metadata.IdColumnName})
-)";
+@$"if not exists (
+    select * 
+    from sys.schemas 
+    where name = '{metadata.Schema}')
+begin 
+    exec('create schema {metadata.Schema}');
+end;
+if object_id('{metadata.Schema}.{metadata.TableName}') is null
+begin
+    create table {metadata.Schema}.{metadata.TableName}
+    (
+        {metadata.IdColumnName} {metadata.IdColumnType} not null identity(1,1),
+        {metadata.VersionColumnName} {metadata.VersionColumnType},
+        {metadata.DateColumnName} {metadata.DateColumnType},
+        constraint PK_{metadata.TableName} primary key ({metadata.IdColumnName})
+    )
+end;";
 
         public object InsertParameters(DateTime dateTime, long version) => new { version, dateTime };
         public string InsertStatement(SqlServerMetadata metadata) =>

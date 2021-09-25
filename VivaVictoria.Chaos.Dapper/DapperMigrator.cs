@@ -27,14 +27,14 @@ namespace VivaVictoria.Chaos.Dapper
                             throw new NullReferenceException("Settings is null");
             this.logger = logger ?? 
                           throw new NullReferenceException("Logger is null");
-            metadata = metadataList.GetService<IMetadata, TMetadata>() 
+            metadata = metadataList.GetService<IMetadata, TMetadata>(false) 
                        ?? throw new NullReferenceException($"Metadata of type {typeof(TMetadata)} required");
             this.driver = driver;
         }
 
         private IDbConnection Connect()
         {
-            return new Connection(logger, driver.Connect(settings.ConnectionString));
+            return new Connection(logger, driver.Connect(settings.ConnectionString, metadata));
         }
 
         public void Init()

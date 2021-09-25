@@ -13,18 +13,17 @@ namespace VivaVictoria.Chaos.PostgreSQL.Extensions
         {
             return collection
                 .AddSingleton<IMetadata, PostgresMetadata>()
-                .AddSingleton<IDatabaseDriver<PostgresMetadata>, NpgsqlDriver>()
+                .AddSingleton<IDatabaseDriver<PostgresMetadata>, PostgresDriver>()
                 .AddChaosDapper<PostgresMetadata>();
         }
 
         public static IServiceCollection AddChaosPostgres<TMetadata>(
-            this IServiceCollection collection, 
-            Func<IServiceProvider, TMetadata> implementationFactory)
+            this IServiceCollection collection)
             where TMetadata : PostgresMetadata
         {
             return collection
-                .AddSingleton<IMetadata, PostgresMetadata>(implementationFactory)
-                .AddSingleton<IDatabaseDriver<PostgresMetadata>, NpgsqlDriver>()
+                .AddSingleton<IMetadata, TMetadata>()
+                .AddSingleton<IDatabaseDriver<PostgresMetadata>, PostgresDriver>()
                 .AddChaosDapper<PostgresMetadata>();
         }
     }

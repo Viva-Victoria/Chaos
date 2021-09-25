@@ -16,7 +16,7 @@ namespace SqlServerSample
         {
             var services = new ServiceCollection()
                 .AddTransient<ISettings, Settings>()
-                .AddChaosSqlServer()
+                .AddChaosSqlServer<MySqlServerMetadata>()
                 .AddChaosConsoleLogger()
                 .AddChaosRawSql("Migrations")
                 .AddChaosCore();

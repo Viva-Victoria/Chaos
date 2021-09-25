@@ -4,13 +4,13 @@ namespace VivaVictoria.Chaos.SqlServer.Models
 {
     public class SqlServerMetadata : IMetadata
     {
-        public string Schema => "dbo";
-        public string TableName => "MigrationSchema";
-        public string IdColumnName => "Id";
-        public string IdColumnType => "int";
-        public string VersionColumnName => "Version";
-        public string VersionColumnType => "bigint";
-        public string DateColumnName => "Date";
-        public string DateColumnType => "datetime";
+        public virtual string Schema => "dbo";
+        public virtual string TableName => "MigrationSchema";
+        public virtual string IdColumnName => "Id";
+        public virtual string IdColumnType => "int";
+        public virtual string VersionColumnName => "Version";
+        public virtual string VersionColumnType => "bigint";
+        public virtual string DateColumnName => "Date";
+        public virtual string DateColumnType => "datetime";
     }
 }

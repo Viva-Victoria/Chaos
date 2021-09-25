@@ -9,7 +9,7 @@ namespace RawSqlSample
          * ConnectionString for your db driver, like Npgsql for PostgreSQL or ODBC for MSSQL 
          */
         public string ConnectionString =>
-            "Host=192.168.5.1;Port=49002;Username=postgres;Password=2ytbJ34eaJPP4zYe;SearchPath=public";
+            "Host=192.168.5.1;Port=49002;Username=postgres;Password=2ytbJ34eaJPP4zYe;SearchPath=raw_sql_sample";
 
         /*
          * Provides default TransactionMode for Chaos.

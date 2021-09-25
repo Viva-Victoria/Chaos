@@ -16,13 +16,11 @@ namespace VivaVictoria.Chaos.SqlServer.Extensions
                 .AddChaosDapper<SqlServerMetadata>();
         }
 
-        public static IServiceCollection AddChaosSqlServer<TMetadata>(
-            this IServiceCollection collection, 
-            Func<IServiceProvider, TMetadata> implementationFactory)
+        public static IServiceCollection AddChaosSqlServer<TMetadata>(this IServiceCollection collection)
             where TMetadata : SqlServerMetadata
         {
             return collection
-                .AddSingleton<IMetadata, SqlServerMetadata>(implementationFactory)
+                .AddSingleton<IMetadata, TMetadata>()
                 .AddSingleton<IDatabaseDriver<SqlServerMetadata>, SqlServerDriver>()
                 .AddChaosDapper<SqlServerMetadata>();
         }

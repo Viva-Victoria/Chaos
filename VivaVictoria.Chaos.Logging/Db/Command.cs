@@ -24,23 +24,26 @@ namespace VivaVictoria.Chaos.Logging.Db
         {
             var sw = Stopwatch.StartNew();
             T result;
+            
+            var sql = command.CommandText;
+            foreach (IDbDataParameter parameter in command.Parameters)
+            {
+                string value = parameter.Value == null || parameter.Value is DBNull
+                    ? "<null>"
+                    : parameter.Value.ToString();
+
+                sql = sql.Replace($"@{parameter.ParameterName}", value);
+            }
+                
+            logger.LogDebug($"Executing\n{sql}");
+            
             try
             {
                 result = func();
             }
             finally
             {
-                var sql = command.CommandText;
-                foreach (IDbDataParameter parameter in command.Parameters)
-                {
-                    string value = parameter.Value == null || parameter.Value is DBNull
-                        ? "<null>"
-                        : parameter.Value.ToString();
-
-                    sql = sql.Replace($"@{parameter.ParameterName}", value);
-                }
-                
-                logger.LogDebug($"Executed\n{sql}\nTime elapsed {sw.ElapsedMilliseconds}ms\n----------------------");
+                logger.LogDebug($"Executed. Time elapsed {sw.ElapsedMilliseconds}ms");
             }
 
             return result;

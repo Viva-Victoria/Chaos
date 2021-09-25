@@ -1,1 +1,1 @@
-﻿drop table test
+﻿drop table sql_server_sample.test
