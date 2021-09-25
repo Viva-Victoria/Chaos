@@ -18,7 +18,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\VivaVictoria.Chaos.Dapper\VivaVictoria.Chaos.Dapper.csproj" />
-        <ProjectReference Include="..\VivaVictoria.Chaos.Logging\VivaVictoria.Chaos.Logging.csproj" />
         <ProjectReference Include="..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
     </ItemGroup>
 

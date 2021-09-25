@@ -11,12 +11,7 @@
       <ProjectReference Include="..\..\VivaVictoria.Chaos.RawSql\VivaVictoria.Chaos.RawSql.csproj" />
       <ProjectReference Include="..\..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
     </ItemGroup>
-
-    <!--
-        All sql scripts files should be available at runtime, so we need to copy project's scripts to output directory.
-        The directory name can be any, but dont forget specify correct directory path in Program.cs in 
-        AddChaosRawSql() call. 
-    -->
+    
     <ItemGroup>
         <Content Include="Migrations\*.sql">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

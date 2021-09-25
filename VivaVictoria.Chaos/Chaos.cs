@@ -28,7 +28,7 @@ namespace VivaVictoria.Chaos
 
         public Chaos Init(Func<bool> condition = null)
         {
-            if (condition?.Invoke() ?? false)
+            if (condition == null || condition())
             {
                 migrator.Init();
                 ready = true;

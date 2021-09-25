@@ -7,9 +7,8 @@
         <PackageTags>VivaVictoria.Chaos;VivaVictoria;Migration;SQL;PostgreSQL</PackageTags>
         <Description>
             Version migration tool for .NET core 3.1 and .NET 5+ apps. 
-            Supported RDBMS: PostgreSQL, MSSQL (in progress), ClickHouse (in progress).
-            Supported logging: Console, Custom ILogger impls, Logstash (in progress).
-            Supported migration definition: Reflect declaration, SQL raw scripts (in progress).
+            Supported RDBMS: PostgreSQL, Microsoft Sql Server, ClickHouse.
+            Supported migration definition: Reflect declaration, SQL raw scripts.
         </Description>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
