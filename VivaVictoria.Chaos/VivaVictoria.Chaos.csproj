@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <PackageId>VivaVictoria.Chaos</PackageId>
-        <Version>1.0.0</Version>
+        <Version>1.0.0-preview</Version>
         <PackageTags>VivaVictoria.Chaos;VivaVictoria;Migration;SQL;PostgreSQL</PackageTags>
         <Description>
             Version migration tool for .NET core 3.1 and .NET 5+ apps. 
@@ -15,7 +15,7 @@
     </PropertyGroup>	
     
     <ItemGroup>
-        <None Include="$(SolutionDir)/LICENSE" Pack="true" PackagePath="" />
+        <None Include="../LICENSE" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>
