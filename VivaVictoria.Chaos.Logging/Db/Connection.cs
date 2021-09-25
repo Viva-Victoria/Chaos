@@ -3,6 +3,10 @@ using Microsoft.Extensions.Logging;
 
 namespace VivaVictoria.Chaos.Logging.Db
 {
+    /*
+     * Simple IDbConnection wrapper for logging commands to logger.
+     * Requires real IDbConnection implementation and ILogger. Uses Command wrapper. 
+     */
     public class Connection : IDbConnection
     {
         private ILogger logger;

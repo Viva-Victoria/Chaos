@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Logging.Console;
+using VivaVictoria.Chaos.Logging.Console.Extensions;
 using VivaVictoria.Chaos.RawSql;
 using VivaVictoria.Chaos.SqlServer.Extensions;
 

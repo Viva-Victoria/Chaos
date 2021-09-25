@@ -1,4 +1,4 @@
-﻿# VivaVictoria.Chaos.RawSql
+﻿# Chaos.RawSql
 
 ### Script naming
 Script files should be named with special format: `{version}.{name}.{up or down}.sql`.  
@@ -8,7 +8,10 @@ Valid name: `0001.create_test_table.up.sql`.
 Invalid name: `A1.create_test_table.up.sql`.  
 **NOTE:** every `up` file should have `down` companion and vice versa.
 
-### CsProj file
+### Install
+Install via [nuget](https://www.nuget.org/packages/VivaVictoria.Chaos.RawSql/).
+
+### .csproj file
 All scripts should be available at runtime, so you need to copy scripts directory to output on every build:
 ```xml
 <ItemGroup>
@@ -18,20 +21,8 @@ All scripts should be available at runtime, so you need to copy scripts director
 </ItemGroup>
 ```
 
-### Usage with DI
-Just use extension method:
+### Usage
 ```c#
 var services = new ServiceCollection();
 services.AddChaosRawSql("Migrations/");
-```
-or add components manually:
-```c#
-collection.AddTransient<IMigrationReader, RawSqlMigrationReader>(p => new RawSqlMigrationReader("Migrations/"));
-```
-
-### Usage with Builder
-```c#
-var chaos = new ChaosBuilder()
-    .Use(new RawSqlMigrationReader("Migrations/"))
-    .Build();
 ```

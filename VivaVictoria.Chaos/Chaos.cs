@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using VivaVictoria.Chaos.Dapper.Interfaces;
-using VivaVictoria.Chaos.Enums;
 using VivaVictoria.Chaos.Interfaces;
 
 namespace VivaVictoria.Chaos
@@ -12,6 +10,7 @@ namespace VivaVictoria.Chaos
         private readonly ILogger logger;
         private readonly IMigrationReader migrationReader;
         private readonly IMigrator migrator;
+        private bool ready;
 
         public Chaos(
             ILogger logger, 
@@ -24,22 +23,40 @@ namespace VivaVictoria.Chaos
                                    throw new NullReferenceException("MigrationReader is null");
             this.migrator = migrator ?? 
                             throw new NullReferenceException("Migrator is null");
+            ready = false;
         }
 
-        public Chaos Init()
+        public Chaos Init(Func<bool> condition = null)
         {
-            migrator.Init();
+            if (condition?.Invoke() ?? false)
+            {
+                migrator.Init();
+                ready = true;
+            }
+
             return this;
         }
 
         public void Up()
         {
+            if (!ready)
+            {
+                logger.LogDebug("Chaos is not ready. Migrations skipped");
+                return;
+            }
+            
             var currentVersion = migrator.GetVersion();
             Migrate(currentVersion, true);
         }
 
         public void Down(long targetVersion)
         {
+            if (!ready)
+            {
+                logger.LogDebug("Chaos is not ready. Migrations skipped");
+                return;
+            }
+            
             Migrate(targetVersion, false);
         }
 

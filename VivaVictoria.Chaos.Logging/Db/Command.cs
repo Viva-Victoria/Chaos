@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
 using Microsoft.Extensions.Logging;
 
 namespace VivaVictoria.Chaos.Logging.Db
 {
+    /*
+     * Simple IDbCommand wrapper for logging SQL scripts to ILogger.
+     * Requires real IDbCommand implementation and logger.
+     */
     public class Command : IDbCommand
     {
         private ILogger logger;

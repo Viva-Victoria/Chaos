@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using VivaVictoria.Chaos.Logging.Interfaces;
 
-namespace VivaVictoria.Chaos.Logging.Console
+namespace VivaVictoria.Chaos.Logging.Console.Extensions
 {
     public static class DependencyInjection
     {

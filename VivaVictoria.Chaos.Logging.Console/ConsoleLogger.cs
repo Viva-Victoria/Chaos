@@ -9,22 +9,48 @@ namespace VivaVictoria.Chaos.Logging.Console
 {
     public class ConsoleLogger : IChaosLogger
     {
+        //lock on mutex for correct console output with await/async operations or multi-thread programs 
         private Mutex mutex = new Mutex();
         private Dictionary<LogLevel, bool> levels;
 
-        public ConsoleLogger()
+        /*
+         * Enables all levels if enabledByDefault is true (default is true), disables otherwise
+         */
+        public ConsoleLogger(bool enabledByDefault = true)
         { 
             levels = new Dictionary<LogLevel, bool>
             {
-                {LogLevel.Critical, true},
-                {LogLevel.Debug, true},
-                {LogLevel.Error, true},
-                {LogLevel.Information, true},
+                {LogLevel.Critical, enabledByDefault},
+                {LogLevel.Debug, enabledByDefault},
+                {LogLevel.Error, enabledByDefault},
+                {LogLevel.Information, enabledByDefault},
                 {LogLevel.None, false},
-                {LogLevel.Trace, true},
-                {LogLevel.Warning, true}
+                {LogLevel.Trace, enabledByDefault},
+                {LogLevel.Warning, enabledByDefault}
             };
         }
+
+        /*
+         * Enables only specified levels. All other disabled by default
+         */
+        public ConsoleLogger(params LogLevel[] levels) : this(false)
+        {
+            if (levels == null || levels.Length == 0)
+            {
+                return;
+            }
+
+            foreach (var level in levels)
+            {
+                Set(level, true);
+            }
+        }
+
+        /*
+         * Default constructor for Dependency Injection mechanism.
+         */
+        public ConsoleLogger() : this(true)
+        { }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
             Func<TState, Exception, string> formatter)

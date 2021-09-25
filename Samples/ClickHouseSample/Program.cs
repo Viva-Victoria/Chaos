@@ -5,6 +5,7 @@ using VivaVictoria.Chaos.ClickHouse.Extensions;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Logging.Console;
+using VivaVictoria.Chaos.Logging.Console.Extensions;
 using VivaVictoria.Chaos.RawSql;
 
 namespace ClickHouseSample

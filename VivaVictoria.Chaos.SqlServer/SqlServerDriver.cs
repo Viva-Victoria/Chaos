@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.SqlClient;
 using VivaVictoria.Chaos.Dapper.Interfaces;
-using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.SqlServer.Models;
 
 namespace VivaVictoria.Chaos.SqlServer

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Logging.Console;
+using VivaVictoria.Chaos.Logging.Console.Extensions;
 using VivaVictoria.Chaos.PostgreSQL.Extensions;
 using VivaVictoria.Chaos.Reflection;
 
@@ -23,7 +24,9 @@ namespace ReflectionSample
             using (var scope = services.BuildServiceProvider())
             {
                 var chaos = scope.GetRequiredService<IChaos>();
-                chaos.Init().Up();
+                chaos
+                    .Init(() => !string.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("REPLICA_MASTER")))
+                    .Up();
             }
             
             CreateHostBuilder(args).Build().Run();

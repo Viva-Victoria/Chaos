@@ -6,6 +6,7 @@ using VivaVictoria.Chaos.Dapper;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Logging.Console;
+using VivaVictoria.Chaos.Logging.Console.Extensions;
 using VivaVictoria.Chaos.PostgreSql;
 using VivaVictoria.Chaos.PostgreSQL.Extensions;
 using VivaVictoria.Chaos.RawSql;

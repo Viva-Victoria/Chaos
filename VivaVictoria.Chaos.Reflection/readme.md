@@ -1,5 +1,8 @@
 ﻿# VivaVictoria.Chaos.Reflection
 
+### Install
+Install via [nuget](https://www.nuget.org/packages/VivaVictoria.Chaos.RawSql/).
+
 ### Migration class
 ```c#
 namespace Migrations
@@ -26,21 +29,9 @@ Next code marks class as Migration class:
 ```
 Version and Name fields are required, TransactionMode is optional. If TransactionMode does not set or set to Default - Migrator will uses TransactionMode from ISettings.
 
-### Usage with DI
+### Usage
 Just use extension method:
 ```c#
 var services = new ServiceCollection();
-services.AddChaosReflection("Migrations/");
-```
-or add components manually:
-```c#
-collection.AddTransient<IMigrationReader, ReflectMigrationReader>(p => 
-    new ReflectMigrationReader(typeof(Program).Assembly));
-```
-
-### Usage with Builder
-```c#
-var chaos = new ChaosBuilder()
-    .Use(new ReflectMigrationReader(typeof(Program).Assembly))
-    .Build();
+services.AddChaosReflection(typeof(Program).Assembly);
 ```
