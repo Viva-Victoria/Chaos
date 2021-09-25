@@ -1,5 +1,5 @@
 @echo off
-set version=1.0.0-preview
+set version=1.0.1-preview
 set token=
 dotnet pack VivaVictoria.Chaos.Logging/VivaVictoria.Chaos.Logging.csproj -o nuget -c Release /p:Version=%version%
 dotnet pack VivaVictoria.Chaos.Logging.Console/VivaVictoria.Chaos.Logging.Console.csproj -o nuget -c Release /p:Version=%version%
