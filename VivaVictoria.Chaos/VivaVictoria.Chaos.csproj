@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\VivaVictoria.Chaos.Logging\VivaVictoria.Chaos.Logging.csproj" />
+      <ProjectReference Include="..\Logs\Logging\Logging.csproj" />
     </ItemGroup>
 
 </Project>

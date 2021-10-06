@@ -3,11 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
-using VivaVictoria.Chaos.Logging.Console;
 using VivaVictoria.Chaos.Logging.Console.Extensions;
-using VivaVictoria.Chaos.PostgreSQL.Extensions;
-using VivaVictoria.Chaos.Reflection;
-using VivaVictoria.Chaos.Reflection.Extensions;
+using VivaVictoria.Chaos.Postgres.Extensions;
+using VivaVictoria.Chaos.ReflectionSqlReader.Extensions;
 using VivaVictoria.Chaos.Sql.Models;
 
 namespace ReflectionSample

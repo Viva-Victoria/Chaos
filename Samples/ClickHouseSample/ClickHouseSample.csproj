@@ -11,9 +11,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\VivaVictoria.Chaos.ClickHouse\VivaVictoria.Chaos.ClickHouse.csproj" />
-      <ProjectReference Include="..\..\VivaVictoria.Chaos.Logging.Console\VivaVictoria.Chaos.Logging.Console.csproj" />
-      <ProjectReference Include="..\..\VivaVictoria.Chaos.RawSql\VivaVictoria.Chaos.RawSql.csproj" />
+      <ProjectReference Include="..\..\Logs\Logging.Console\Logging.Console.csproj" />
+      <ProjectReference Include="..\..\Logs\Logging\Logging.csproj" />
+      <ProjectReference Include="..\..\Sql\ClickHouse\ClickHouse.csproj" />
+      <ProjectReference Include="..\..\Sql\RawSqlReader\RawSqlReader.csproj" />
       <ProjectReference Include="..\..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
     </ItemGroup>
 

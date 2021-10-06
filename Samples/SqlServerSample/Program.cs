@@ -3,10 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
-using VivaVictoria.Chaos.Logging.Console;
 using VivaVictoria.Chaos.Logging.Console.Extensions;
-using VivaVictoria.Chaos.RawSql;
-using VivaVictoria.Chaos.RawSql.Extensions;
+using VivaVictoria.Chaos.RawSqlReader.Extensions;
 using VivaVictoria.Chaos.Sql.Models;
 using VivaVictoria.Chaos.SqlServer.Extensions;
 

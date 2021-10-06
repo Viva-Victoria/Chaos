@@ -1,5 +1,5 @@
-﻿using VivaVictoria.Chaos.Reflection.Attributes;
-using VivaVictoria.Chaos.Reflection.Interfaces;
+﻿using VivaVictoria.Chaos.ReflectionSqlReader.Attributes;
+using VivaVictoria.Chaos.ReflectionSqlReader.Interfaces;
 
 namespace ReflectionSample.Migrations
 {
