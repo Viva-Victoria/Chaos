@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using VivaVictoria.Chaos.Interfaces;
-using VivaVictoria.Chaos.Models;
 using VivaVictoria.Chaos.Reflection.Attributes;
 using VivaVictoria.Chaos.Reflection.Exceptions;
 using VivaVictoria.Chaos.Reflection.Interfaces;
+using VivaVictoria.Chaos.Sql.Models;
 
 namespace VivaVictoria.Chaos.Reflection
 {
-    public class ReflectMigrationReader : IMigrationReader
+    public class ReflectMigrationReader : IMigrationReader<Migration>
     {
         private readonly Assembly assembly;
 
@@ -21,7 +21,8 @@ namespace VivaVictoria.Chaos.Reflection
 
         public List<Migration> Read()
         {
-            var migrationTypes = assembly.GetTypes().Where(type => type.GetInterfaces().Contains(typeof(IMigration)));
+            var migrationTypes = assembly.GetTypes().Where(type => 
+                type.GetInterfaces().Contains(typeof(IReflectMigration)));
             var result = new List<Migration>();
 
             foreach (var type in migrationTypes)
@@ -34,9 +35,14 @@ namespace VivaVictoria.Chaos.Reflection
                     continue;
                 }
 
-                var instance = Activator.CreateInstance(type) as IMigration;
-                result.Add(new Migration(info.Version, info.Name, info.TransactionMode, instance.Up(),
-                    instance.Down()));
+                var instance = Activator.CreateInstance(type) as IReflectMigration;
+                result.Add(new Migration {
+                    Version = info.Version, 
+                    Name = info.Name, 
+                    TransactionMode = info.TransactionMode, 
+                    Up = instance.Up(),
+                    Down = instance.Down()
+                });
             }
 
             return result;

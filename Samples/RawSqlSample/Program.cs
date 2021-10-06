@@ -10,6 +10,9 @@ using VivaVictoria.Chaos.Logging.Console.Extensions;
 using VivaVictoria.Chaos.PostgreSql;
 using VivaVictoria.Chaos.PostgreSQL.Extensions;
 using VivaVictoria.Chaos.RawSql;
+using VivaVictoria.Chaos.RawSql.Extensions;
+using VivaVictoria.Chaos.Sql.Interfaces;
+using VivaVictoria.Chaos.Sql.Models;
 
 namespace RawSqlSample
 {
@@ -22,12 +25,12 @@ namespace RawSqlSample
                 .AddChaosPostgres()
                 .AddChaosConsoleLogger()
                 .AddChaosRawSql("Migrations")
-                .AddChaosCore();
+                .AddChaosCore<Migration>();
 
             using (var scope = services.BuildServiceProvider())
             {
-                var chaos = scope.GetRequiredService<IChaos>();
-                chaos.Init().Up();
+                var chaos = scope.GetChaos<Migration>();
+                chaos.Init().Migrate();
             }
 
             CreateHostBuilder(args).Build().Run();

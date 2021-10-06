@@ -1,22 +1,20 @@
-﻿using VivaVictoria.Chaos.Enums;
-using VivaVictoria.Chaos.Interfaces;
+﻿using System.Collections.Generic;
+using VivaVictoria.Chaos.Enums;
+using VivaVictoria.Chaos.Sql.Enums;
+using VivaVictoria.Chaos.Sql.Interfaces;
 
 namespace RawSqlSample
 {
-    public class Settings : ISettings
+    public class Settings : ISqlSettings
     {
-        /*
-         * ConnectionString for your db driver, like Npgsql for PostgreSQL or ODBC for MSSQL 
-         */
         public string ConnectionString =>
             "Host=192.168.5.1;Port=49002;Username=postgres;Password=2ytbJ34eaJPP4zYe;SearchPath=raw_sql_sample";
-
-        /*
-         * Provides default TransactionMode for Chaos.
-         * This value will be used if MigrationInfo.TransactionMode is TransactionMode.Default.
-         * It also used for every raw-sql migration.
-         */
+        
         public TransactionMode TransactionMode => 
             TransactionMode.One;
+
+        public bool ParallelListeners => false;
+
+        public IEnumerable<MigrationState> SaveStates => new[] { MigrationState.Applied };
     }
 }

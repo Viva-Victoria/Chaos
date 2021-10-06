@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using VivaVictoria.Chaos.Enums;
+using VivaVictoria.Chaos.Sql.Enums;
 
 namespace VivaVictoria.Chaos.Reflection.Attributes
 {

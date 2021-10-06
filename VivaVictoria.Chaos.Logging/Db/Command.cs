@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace VivaVictoria.Chaos.Logging.Db
 {
     /*
-     * Simple IDbCommand wrapper for logging SQL scripts to ILogger.
+     * Simple IDbCommand wrapper for logging Sql scripts to ILogger.
      * Requires real IDbCommand implementation and logger.
      */
     public class Command : IDbCommand

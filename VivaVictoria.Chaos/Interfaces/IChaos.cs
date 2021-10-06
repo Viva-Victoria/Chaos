@@ -2,10 +2,12 @@
 
 namespace VivaVictoria.Chaos.Interfaces
 {
-    public interface IChaos
+    public interface IChaos<TMigration>
+        where TMigration : IMigration
     {
-        public Chaos Init(Func<bool> condition = null);
-        public void Up();
-        public void Down(long targetVersion);
+        public IChaos<TMigration> Init(Func<bool> condition = null);
+        public bool IsReady();
+        public void Migrate();
+        public void Migrate(long targetVersion);
     }
 }

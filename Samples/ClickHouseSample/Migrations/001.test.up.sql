@@ -1,5 +1,5 @@
 ﻿create table test (
-    id Int32
+    id Int32a
 )
 engine = MergeTree()
 primary key(id)

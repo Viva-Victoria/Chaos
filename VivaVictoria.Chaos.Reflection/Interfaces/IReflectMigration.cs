@@ -1,6 +1,6 @@
 ﻿namespace VivaVictoria.Chaos.Reflection.Interfaces
 {
-    public interface IMigration
+    public interface IReflectMigration
     {
         public string Up();
         public string Down();

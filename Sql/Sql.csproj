@@ -2,14 +2,12 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <PackageId>VivaVictoria.Chaos.Reflection</PackageId>
+        <PackageId>VivaVictoria.Chaos.Sql</PackageId>
         <Version>1.0.0-preview</Version>
-        <PackageTags>VivaVictoria.Chaos;VivaVictoria;Reflect</PackageTags>
-        <Description>
-            Reflect API migrations loader. Allows to declare migration in C# class by annotating it with special attribute.
-        </Description>
+        <PackageTags>VivaVictoria.Chaos;VivaVictoria;Sql</PackageTags>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <RootNamespace>VivaVictoria.Chaos.Sql</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,7 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Sql\Sql.csproj" />
         <ProjectReference Include="..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
     </ItemGroup>
 

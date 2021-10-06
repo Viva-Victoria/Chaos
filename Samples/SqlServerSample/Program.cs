@@ -6,6 +6,8 @@ using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Logging.Console;
 using VivaVictoria.Chaos.Logging.Console.Extensions;
 using VivaVictoria.Chaos.RawSql;
+using VivaVictoria.Chaos.RawSql.Extensions;
+using VivaVictoria.Chaos.Sql.Models;
 using VivaVictoria.Chaos.SqlServer.Extensions;
 
 namespace SqlServerSample
@@ -19,12 +21,12 @@ namespace SqlServerSample
                 .AddChaosSqlServer<MySqlServerMetadata>()
                 .AddChaosConsoleLogger()
                 .AddChaosRawSql("Migrations")
-                .AddChaosCore();
+                .AddChaosCore<Migration>();
 
             using (var scope = services.BuildServiceProvider())
             {
-                var chaos = scope.GetRequiredService<IChaos>();
-                chaos.Init().Up();
+                var chaos = scope.GetChaos<Migration>();
+                chaos.Init().Migrate();
             }
             
             CreateHostBuilder(args).Build().Run();

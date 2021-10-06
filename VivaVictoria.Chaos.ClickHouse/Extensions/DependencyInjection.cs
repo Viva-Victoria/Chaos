@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using VivaVictoria.Chaos.ClickHouse.Interfaces;
 using VivaVictoria.Chaos.ClickHouse.Models;
-using VivaVictoria.Chaos.Dapper.Interfaces;
 using VivaVictoria.Chaos.Interfaces;
+using VivaVictoria.Chaos.Sql.Models;
 
 namespace VivaVictoria.Chaos.ClickHouse.Extensions
 {
@@ -11,8 +12,8 @@ namespace VivaVictoria.Chaos.ClickHouse.Extensions
         public static IServiceCollection AddChaosClickHouse(this IServiceCollection collection)
         {
             return collection
-                .AddSingleton<IMetadata, ClickHouseMetadata>()
-                .AddSingleton<IMigrator, ClickHouseMigrator>();
+                .AddSingleton<IClickHouseMetadata, ClickHouseMetadata>()
+                .AddSingleton<IMigrator<Migration>, ClickHouseMigrator>();
         }
 
         public static IServiceCollection AddChaosClickHouse<TMetadata>(
@@ -21,8 +22,8 @@ namespace VivaVictoria.Chaos.ClickHouse.Extensions
             where TMetadata : ClickHouseMetadata
         {
             return collection
-                .AddSingleton<IMetadata, ClickHouseMetadata>(implementationFactory)
-                .AddSingleton<IMigrator, ClickHouseMigrator>();
+                .AddSingleton<IClickHouseMetadata, TMetadata>(implementationFactory)
+                .AddSingleton<IMigrator<Migration>, ClickHouseMigrator>();
         }
     }
 }

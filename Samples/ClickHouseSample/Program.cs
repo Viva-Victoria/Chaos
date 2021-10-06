@@ -4,9 +4,9 @@ using Microsoft.Extensions.Hosting;
 using VivaVictoria.Chaos.ClickHouse.Extensions;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
-using VivaVictoria.Chaos.Logging.Console;
 using VivaVictoria.Chaos.Logging.Console.Extensions;
-using VivaVictoria.Chaos.RawSql;
+using VivaVictoria.Chaos.RawSql.Extensions;
+using VivaVictoria.Chaos.Sql.Models;
 
 namespace ClickHouseSample
 {
@@ -19,12 +19,12 @@ namespace ClickHouseSample
                 .AddChaosClickHouse()
                 .AddChaosConsoleLogger()
                 .AddChaosRawSql("Migrations")
-                .AddChaosCore();
+                .AddChaosCore<Migration>();
 
             using (var scope = services.BuildServiceProvider())
             {
-                var chaos = scope.GetRequiredService<IChaos>();
-                chaos.Init().Up();
+                var chaos = scope.GetChaos<Migration>();
+                chaos.Init().Migrate();
             }
             CreateHostBuilder(args).Build().Run();
         }

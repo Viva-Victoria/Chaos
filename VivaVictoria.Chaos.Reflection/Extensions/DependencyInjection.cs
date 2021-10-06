@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using VivaVictoria.Chaos.Interfaces;
+using VivaVictoria.Chaos.Sql.Models;
 
-namespace VivaVictoria.Chaos.Reflection
+namespace VivaVictoria.Chaos.Reflection.Extensions
 {
     public static class DependencyInjection
     {
         public static IServiceCollection AddChaosReflection(this IServiceCollection collection, Assembly assembly)
         {
-            return collection.AddTransient<IMigrationReader, ReflectMigrationReader>(p =>
+            return collection.AddTransient<IMigrationReader<Migration>, ReflectMigrationReader>(p =>
                 new ReflectMigrationReader(assembly));
         }
     }

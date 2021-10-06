@@ -3,29 +3,28 @@ using System.Collections.Generic;
 using System.Data;
 using ClickHouse.Ado;
 using Microsoft.Extensions.Logging;
-using VivaVictoria.Chaos.ClickHouse.Models;
-using VivaVictoria.Chaos.Dapper.Interfaces;
+using VivaVictoria.Chaos.ClickHouse.Interfaces;
 using VivaVictoria.Chaos.Enums;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Logging.Db;
+using VivaVictoria.Chaos.Models;
+using VivaVictoria.Chaos.Sql.Enums;
+using VivaVictoria.Chaos.Sql.Models;
 
 namespace VivaVictoria.Chaos.ClickHouse
 {
-    public class ClickHouseMigrator : IMigrator
+    public class ClickHouseMigrator : IMigrator<Migration>
     {
-        private ISettings settings;
+        private IClickHouseSettings settings;
         private ILogger logger;
-        private ClickHouseMetadata metadata;
+        private IClickHouseMetadata metadata;
 
-        public ClickHouseMigrator(ISettings settings, ILogger logger, IEnumerable<IMetadata> metadataList)
+        public ClickHouseMigrator(IEnumerable<ISettings> settings, ILogger logger, IClickHouseMetadata metadata)
         {
-            this.settings = settings ?? 
-                            throw new NullReferenceException("Settings is null");
-            this.logger = logger ?? 
-                          throw new NullReferenceException("Logger is null");
-            metadata = metadataList.GetService<IMetadata, ClickHouseMetadata>() 
-                       ?? throw new NullReferenceException($"Metadata of type {typeof(ClickHouseMetadata)} required");
+            this.settings = settings.RequireService<ISettings, IClickHouseSettings>(false);
+            this.logger = logger;
+            this.metadata = metadata;
         }
 
         private IDbConnection Connect()
@@ -42,7 +41,7 @@ namespace VivaVictoria.Chaos.ClickHouse
             cmd.ExecuteNonQuery();
         }
         
-        public long GetVersion()
+        public Info GetInfo()
         {
             using var conn = Connect();
             conn.Open();
@@ -50,20 +49,26 @@ namespace VivaVictoria.Chaos.ClickHouse
             var cmd = conn.CreateCommand();
             cmd.CommandText = metadata.SelectStatement;
             var reader = cmd.ExecuteReader();
-            if (!reader.NextResult() || !reader.Read())
-                return 0L;
-            
-            return reader.GetInt64(0);
+            if (reader.NextResult() && reader.Read())
+            {
+                return new Info
+                {
+                    Version = reader.GetInt64(0),
+                    State = (MigrationState) reader.GetInt16(1)
+                };
+            }
+
+            return null;
         }
 
-        public void SetVersion(long version)
+        public void SaveState(long version, MigrationState state)
         {
             using var conn = Connect();
             conn.Open();
             var cmd = conn.CreateCommand();
             cmd.CommandText = metadata.InsertStatement;
 
-            foreach (var param in metadata.InsertParameters(DateTime.UtcNow, version))
+            foreach (var param in metadata.InsertParameters(DateTime.UtcNow, version, state))
             {
                 cmd.Parameters.Add(param);
             }
@@ -71,26 +76,17 @@ namespace VivaVictoria.Chaos.ClickHouse
             cmd.ExecuteNonQuery();
         }
 
-        public void Apply(TransactionMode transactionMode, string migration)
+        public void Apply(Migration migration, bool downgrade)
         {
-            if (transactionMode == TransactionMode.Default)
+            if (migration.TransactionMode == TransactionMode.One)
             {
-                transactionMode = settings.TransactionMode;
-            }
-            if (transactionMode == TransactionMode.One)
-            {
-                logger.Log(LogLevel.Warning, "ClickHouse does not support transactions. Migration will be applied without a transaction");
+                logger.Log(LogLevel.Warning, "ClickHouse does not support transactions, TransactionMode will be ignored");
             }
 
-            Apply(migration);
-        }
-
-        private void Apply(string migration)
-        {
             using var conn = Connect();
             conn.Open();
             var cmd = conn.CreateCommand();
-            cmd.CommandText = migration;
+            cmd.CommandText = downgrade ? migration.Down : migration.Up;
             cmd.ExecuteNonQuery();
         }
     }

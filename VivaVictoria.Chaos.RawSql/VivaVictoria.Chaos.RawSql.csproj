@@ -14,10 +14,11 @@
 
     <ItemGroup>
         <None Include="../LICENSE" Pack="true" PackagePath="" />
-        <None Include="readme.md" Pack="true" PackagePath=""/>
+        <None Include="readme.md" Pack="true" PackagePath="" />
     </ItemGroup>
     
     <ItemGroup>
+      <ProjectReference Include="..\Sql\Sql.csproj" />
       <ProjectReference Include="..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
     </ItemGroup>
 

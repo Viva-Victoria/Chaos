@@ -1,4 +1,4 @@
-﻿namespace VivaVictoria.Chaos.Enums
+﻿namespace VivaVictoria.Chaos.Sql.Enums
 {
     /*
      * Default - use TransactionMode specified in ISettings

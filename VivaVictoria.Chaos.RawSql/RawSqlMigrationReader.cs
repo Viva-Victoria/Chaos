@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using VivaVictoria.Chaos.Enums;
 using VivaVictoria.Chaos.Interfaces;
-using VivaVictoria.Chaos.Models;
+using VivaVictoria.Chaos.Sql.Enums;
+using VivaVictoria.Chaos.Sql.Models;
 
 namespace VivaVictoria.Chaos.RawSql
 {
-    public class RawSqlMigrationReader : IMigrationReader
+    public class RawSqlMigrationReader : IMigrationReader<Migration>
     {
         private string path;
 
@@ -50,21 +50,25 @@ namespace VivaVictoria.Chaos.RawSql
                 Migration info;
                 if (!preloaded.TryGetValue(version, out info))
                 {
-                    info = new Migration(version, name, TransactionMode.Default, "", "");
+                    info = new Migration {
+                        Version = version, 
+                        Name = name, 
+                        TransactionMode = TransactionMode.Default
+                    };
                     preloaded.Add(version, info);
                 }
 
                 if (up)
                 {
-                    info.UpScript = script;
+                    info.Up = script;
                 }
                 else
                 {
-                    info.DownScript = script;
+                    info.Down = script;
                 }
             }
 
-            var invalidMigration = preloaded.Values.FirstOrDefault(i => i.UpScript == "" || i.DownScript == "");
+            var invalidMigration = preloaded.Values.FirstOrDefault(i => string.IsNullOrEmpty(i.Up) || string.IsNullOrEmpty(i.Down));
             if (invalidMigration != null)
             {
                 throw new ArgumentException($"Migration {invalidMigration.Version} is invalid: empty Up or Down script provided");
