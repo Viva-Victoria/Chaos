@@ -3,10 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
-using VivaVictoria.Chaos.Logging.Console;
 using VivaVictoria.Chaos.Logging.Console.Extensions;
-using VivaVictoria.Chaos.PostgreSQL.Extensions;
-using VivaVictoria.Chaos.Reflection;
+using VivaVictoria.Chaos.Postgres.Extensions;
+using VivaVictoria.Chaos.ReflectionSqlReader.Extensions;
+using VivaVictoria.Chaos.Sql.Models;
 
 namespace ReflectionSample
 {
@@ -18,15 +18,15 @@ namespace ReflectionSample
                 .AddTransient<ISettings, Settings>()
                 .AddChaosPostgres()
                 .AddChaosConsoleLogger()
-                .AddChaosCore()
+                .AddChaosCore<Migration>()
                 .AddChaosReflection(typeof(Program).Assembly);
             
             using (var scope = services.BuildServiceProvider())
             {
-                var chaos = scope.GetRequiredService<IChaos>();
+                var chaos = scope.GetChaos<Migration>();
                 chaos
                     .Init(() => !string.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("REPLICA_MASTER")))
-                    .Up();
+                    .Migrate();
             }
             
             CreateHostBuilder(args).Build().Run();

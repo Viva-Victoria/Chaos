@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <PackageId>VivaVictoria.Chaos.ReflectionSqlReader</PackageId>
+        <Version>1.0.0-preview</Version>
+        <PackageTags>VivaVictoria.Chaos;VivaVictoria;Reflect</PackageTags>
+        <Description>
+            Reflect API migrations loader. Allows to declare migration in C# class by annotating it with special attribute.
+        </Description>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <RootNamespace>VivaVictoria.Chaos.ReflectionSqlReader</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../../LICENSE" Pack="true" PackagePath="" />
+        <None Include="readme.md" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Sql\Sql.csproj" />
+        <ProjectReference Include="..\..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
+    </ItemGroup>
+
+</Project>

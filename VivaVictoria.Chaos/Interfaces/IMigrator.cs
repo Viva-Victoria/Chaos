@@ -1,12 +1,14 @@
 ﻿using VivaVictoria.Chaos.Enums;
+using VivaVictoria.Chaos.Models;
 
 namespace VivaVictoria.Chaos.Interfaces
 {
-    public interface IMigrator
+    public interface IMigrator<in TMigration>
+        where TMigration : IMigration
     {
         public void Init();
-        public long GetVersion();
-        public void Apply(TransactionMode requestedMode, string migration);
-        public void SetVersion(long version);
+        public Info GetInfo();
+        public void SaveState(long version, MigrationState state);
+        public void Apply(TMigration migration, bool downgrade);
     }
 }

@@ -1,10 +1,11 @@
-﻿using VivaVictoria.Chaos.Enums;
+﻿using System.Collections.Generic;
+using VivaVictoria.Chaos.Enums;
 
 namespace VivaVictoria.Chaos.Interfaces
 {
     public interface ISettings
     {
-        public string ConnectionString { get; }
-        public TransactionMode TransactionMode { get; }
+        public bool ParallelListeners { get; }
+        public IEnumerable<MigrationState> SaveStates { get; }
     }
 }
