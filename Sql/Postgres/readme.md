@@ -1,8 +1,8 @@
-﻿# Chaos.PostgreSQL
+﻿# Chaos.Postgres
 IDatabaseDriver implementation for Npgsql. 
 
 ### Install
-Install via [nuget](https://www.nuget.org/packages/VivaVictoria.Chaos.PostgreSQL/).
+Install via [nuget](https://www.nuget.org/packages/VivaVictoria.Chaos.Postgres/).
 
 ### Usage
 ```c#

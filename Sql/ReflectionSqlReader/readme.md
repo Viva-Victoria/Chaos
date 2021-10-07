@@ -5,10 +5,13 @@ Install via [nuget](https://www.nuget.org/packages/VivaVictoria.Chaos.RawSql/).
 
 ### Migration class
 ```c#
+using VivaVictoria.Chaos.ReflectionSqlReader.Attributes;
+using VivaVictoria.Chaos.ReflectionSqlReader.Interfaces;
+
 namespace Migrations
 {
     [Migration(Version = 1, Name = "create table test", TransactionMode = TransactionMode.One)]
-    public class Migration_001_CreateTableTest : IMigration {
+    public class Migration_001_CreateTableTest : IReflectMigration {
         public string Up()
         {
             return "create table test(id int primary key)";

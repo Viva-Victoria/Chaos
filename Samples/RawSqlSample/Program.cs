@@ -7,6 +7,7 @@ using VivaVictoria.Chaos.Logging.Console.Extensions;
 using VivaVictoria.Chaos.Postgres.Extensions;
 using VivaVictoria.Chaos.RawSqlReader.Extensions;
 using VivaVictoria.Chaos.Sql.Models;
+using VivaVictoria.Chaos.Sql.Extensions;
 
 namespace RawSqlSample
 {
@@ -19,7 +20,7 @@ namespace RawSqlSample
                 .AddChaosPostgres()
                 .AddChaosConsoleLogger()
                 .AddChaosRawSql("Migrations")
-                .AddChaosCore<Migration>();
+                .AddChaosCore();
 
             using (var scope = services.BuildServiceProvider())
             {
