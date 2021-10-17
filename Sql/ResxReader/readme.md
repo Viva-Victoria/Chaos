@@ -12,7 +12,14 @@ Script files can be named in any format, but ResX properties should be named in 
 `name` can be any string, can contains special symbols, `.`, `_`.  
 Valid property name: `Migration_0001_create_test_table`.   
 Invalid name: `A1.create_test_table`.
-**NOTE:** ResxReader is fully case insensitive.
+**NOTE:** ResxReader is fully case insensitive and allows to ignore case at annotations. For example, this is valid 
+`ChaosResX` script file: 
+```sql
+@cHAos+down
+drop table test;
+@chaos+UP
+create table test(id integer primary key);
+```
 
 ### Script format
 You can use any SQL-like format depending on your RDBMS, but you must annotate scripts in file with specified format:
