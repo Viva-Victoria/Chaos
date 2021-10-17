@@ -2,7 +2,7 @@
 ### Universal version migration tool for .NET
 
 ### Status
-version 1.0.0-preview - _**unstable**_
+version 1.1.1 - _**unstable**_
 
 ### Supported platforms:
 - .NET Core 3.1
@@ -33,8 +33,6 @@ var services = new ServiceCollection()
 services.AddTransient<ISettings, Settings>();
 //register PostgreSQL or other RDBMS driver
 services.RegisterChaosPostgres();
-//register ConsoleLogger or other ILogger
-services.RegisterChaosConsoleLogger();
             
 //add Reflection support with project Assembly
 services.RegisterChaosReflection(typeof(Program).Assembly);
@@ -44,8 +42,8 @@ Now you can request IChaos service and run migrations.
 //build chaos via DI container            
 using (var scope = services.BuildServiceProvider())
 {
-    var chaos = scope.GetRequiredService<IChaos>();
-    chaos.Init().Up();
+    var chaos = scope.GetChaos();
+    chaos.Init().Migrate();
 }
 ```
 
@@ -66,9 +64,10 @@ Chaos provides you possibility to skip migrations if some condition is not met:
 ```c#        
 using (var scope = services.BuildServiceProvider())
 {
+    var chaos = scope.GetChaos();
     chaos
         .Init(() => !string.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("REPLICA_MASTER")))
-        .Up();
+        .Migrate();
 }
 ```
 Now, define environment variable REPLICA_MASTER only on your master replica container. All other replicas will be skipped.  
@@ -78,14 +77,15 @@ when blue container is still exists and green container runs migrations. Blue co
 
 ### Total nuget packages list
 `VivaVictoria.Chaos`  
-`VivaVictoria.Chaos.Logging`  
-`VivaVictoria.Chaos.Logging.Console`  
 `VivaVictoria.Chaos.ClickHouse`  
-`VivaVictoria.Chaos.Dapper`  
-`VivaVictoria.Chaos.PostgreSQL`  
+`VivaVictoria.Chaos.DapperMigrator`  
+`VivaVictoria.Chaos.Logging`  
+`VivaVictoria.Chaos.Postgres`  
+`VivaVictoria.Chaos.RawSqlReader`  
+`VivaVictoria.Chaos.ReflectionSqlReader`  
+`VivaVictoria.Chaos.ResxReader`
+`VivaVictoria.Chaos.Sql`  
 `VivaVictoria.Chaos.SqlServer`  
-`VivaVictoria.Chaos.RawSql`  
-`VivaVictoria.Chaos.Reflection`
 
 ## Contributing
 1. If you creates new project, please follow the following structure:
