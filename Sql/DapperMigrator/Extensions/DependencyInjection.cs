@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using VivaVictoria.Chaos.Dapper.Interfaces;
 using VivaVictoria.Chaos.Interfaces;
+using VivaVictoria.Chaos.Logging.Extensions;
 using VivaVictoria.Chaos.Sql.Models;
 
 namespace VivaVictoria.Chaos.Dapper.Extensions
@@ -10,7 +11,9 @@ namespace VivaVictoria.Chaos.Dapper.Extensions
         public static IServiceCollection AddChaosDapper<TMetadata>(this IServiceCollection collection)
             where TMetadata : IMetadata
         {
-            return collection.AddTransient<IMigrator<Migration>, DapperMigrator<TMetadata>>();
+            return collection
+                .AddChaosConnectionLogging()
+                .AddTransient<IMigrator<Migration>, DapperMigrator<TMetadata>>();
         }
     }
 }

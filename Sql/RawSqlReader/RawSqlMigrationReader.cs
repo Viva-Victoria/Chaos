@@ -34,6 +34,7 @@ namespace VivaVictoria.Chaos.RawSqlReader
             
             foreach (var filePath in Directory.GetFiles(path))
             {
+                
                 var index = filePath.LastIndexOfAny(new []{ '/', '\\' }); 
                 
                 var parts = filePath[(index + 1)..].Split(".");
@@ -47,8 +48,7 @@ namespace VivaVictoria.Chaos.RawSqlReader
                 }
 
                 var script = File.ReadAllText(filePath);
-                Migration info;
-                if (!preloaded.TryGetValue(version, out info))
+                if (!preloaded.TryGetValue(version, out Migration info))
                 {
                     info = new Migration {
                         Version = version, 

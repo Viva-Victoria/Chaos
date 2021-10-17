@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using VivaVictoria.Chaos.ClickHouse.Interfaces;
 using VivaVictoria.Chaos.ClickHouse.Models;
 using VivaVictoria.Chaos.Interfaces;
+using VivaVictoria.Chaos.Logging.Extensions;
 using VivaVictoria.Chaos.Sql.Models;
 
 namespace VivaVictoria.Chaos.ClickHouse.Extensions
@@ -12,6 +13,7 @@ namespace VivaVictoria.Chaos.ClickHouse.Extensions
         public static IServiceCollection AddChaosClickHouse(this IServiceCollection collection)
         {
             return collection
+                .AddChaosConnectionLogging()
                 .AddSingleton<IClickHouseMetadata, ClickHouseMetadata>()
                 .AddSingleton<IMigrator<Migration>, ClickHouseMigrator>();
         }
@@ -22,6 +24,7 @@ namespace VivaVictoria.Chaos.ClickHouse.Extensions
             where TMetadata : ClickHouseMetadata
         {
             return collection
+                .AddChaosConnectionLogging()
                 .AddSingleton<IClickHouseMetadata, TMetadata>(implementationFactory)
                 .AddSingleton<IMigrator<Migration>, ClickHouseMigrator>();
         }

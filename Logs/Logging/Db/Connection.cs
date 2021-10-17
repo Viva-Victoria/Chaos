@@ -9,10 +9,10 @@ namespace VivaVictoria.Chaos.Logging.Db
      */
     public class Connection : IDbConnection
     {
-        private ILogger logger;
-        private IDbConnection connection;
+        private readonly ILogger<ConnectionProvider> logger;
+        private readonly IDbConnection connection;
 
-        public Connection(ILogger logger, IDbConnection connection)
+        public Connection(ILogger<ConnectionProvider> logger, IDbConnection connection)
         {
             this.logger = logger;
             this.connection = connection;

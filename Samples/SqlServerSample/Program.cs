@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
-using VivaVictoria.Chaos.Logging.Console.Extensions;
 using VivaVictoria.Chaos.RawSqlReader.Extensions;
 using VivaVictoria.Chaos.Sql.Models;
 using VivaVictoria.Chaos.SqlServer.Extensions;
@@ -17,7 +17,7 @@ namespace SqlServerSample
             var services = new ServiceCollection()
                 .AddTransient<ISettings, Settings>()
                 .AddChaosSqlServer<MySqlServerMetadata>()
-                .AddChaosConsoleLogger()
+                .AddLogging(logging => logging.AddConsole())
                 .AddChaosRawSql("Migrations")
                 .AddChaosCore<Migration>();
 

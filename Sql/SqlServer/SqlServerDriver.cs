@@ -8,7 +8,9 @@ using VivaVictoria.Chaos.SqlServer.Models;
 namespace VivaVictoria.Chaos.SqlServer
 {
     public class SqlServerDriver : IDatabaseDriver<SqlServerMetadata>
-    { 
+    {
+        public string Name => "Microsoft SQL Server";
+        
         public IDbConnection Connect(string connectionString, SqlServerMetadata _)
         {
             return new SqlConnection(connectionString);

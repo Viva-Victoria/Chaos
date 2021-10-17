@@ -8,6 +8,7 @@ using VivaVictoria.Chaos.Enums;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Logging.Db;
+using VivaVictoria.Chaos.Logging.Interfaces;
 using VivaVictoria.Chaos.Models;
 using VivaVictoria.Chaos.Sql.Enums;
 using VivaVictoria.Chaos.Sql.Interfaces;
@@ -18,22 +19,24 @@ namespace VivaVictoria.Chaos.Dapper
     public class DapperMigrator<TMetadata> : IMigrator<Migration>
         where TMetadata : IMetadata
     {
-        private ISqlSettings settings;
-        private ILogger logger;
-        private TMetadata metadata;
-        private IDatabaseDriver<TMetadata> driver;
+        private readonly ISqlSettings settings;
+        private readonly ILogger<DapperMigrator<TMetadata>> logger;
+        private readonly TMetadata metadata;
+        private readonly IDatabaseDriver<TMetadata> driver;
+        private readonly IConnectionProvider connectionProvider;
 
-        public DapperMigrator(IEnumerable<ISettings> settings, ILogger logger, IEnumerable<IMetadata> metadataList, IDatabaseDriver<TMetadata> driver)
+        public DapperMigrator(IEnumerable<ISettings> settings, ILogger<DapperMigrator<TMetadata>> logger, IEnumerable<IMetadata> metadataList, IDatabaseDriver<TMetadata> driver, IConnectionProvider connectionProvider)
         {
             this.settings = settings.RequireService<ISettings, ISqlSettings>(false);
             this.logger = logger;
             metadata = metadataList.RequireService<IMetadata, TMetadata>(false);
             this.driver = driver;
+            this.connectionProvider = connectionProvider;
         }
 
         private IDbConnection Connect()
         {
-            return new Connection(logger, driver.Connect(settings.ConnectionString, metadata));
+            return connectionProvider.Wrap(driver.Connect(settings.ConnectionString, metadata));
         }
 
         public void Init()
@@ -62,7 +65,7 @@ namespace VivaVictoria.Chaos.Dapper
             }
             if (migration.TransactionMode == TransactionMode.One && !driver.IsTransactionSupported())
             {
-                logger.Log(LogLevel.Warning, $"DatabaseDriver does not support transactions. Migration will be applied without a transaction");
+                logger.LogWarning($"DatabaseDriver {driver.Name} does not support transactions. Migration will be applied without a transaction");
                 migration.TransactionMode = TransactionMode.None;
             }
 
@@ -86,9 +89,12 @@ namespace VivaVictoria.Chaos.Dapper
                     }
                     catch (Exception)
                     {
+                        logger.LogError("Migration failed, rolling back transaction...");
                         transaction.Rollback();
                         throw;
                     }
+                    
+                    logger.LogInformation("Migration applied, commiting transaction...");
                     transaction.Commit();
                     break;
                 }

@@ -6,6 +6,7 @@ namespace VivaVictoria.Chaos.Dapper.Interfaces
 {
     public interface IDatabaseDriver<in TMetadata> where TMetadata : IMetadata
     {
+        public string Name { get; }
         public IDbConnection Connect(string connectionString, TMetadata metadata);
         public bool IsTransactionSupported();
         public string CreateStatement(TMetadata metadata);

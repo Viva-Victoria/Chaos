@@ -11,8 +11,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Logs\Logging.Console\Logging.Console.csproj" />
-      <ProjectReference Include="..\..\Logs\Logging\Logging.csproj" />
       <ProjectReference Include="..\..\Sql\RawSqlReader\RawSqlReader.csproj" />
       <ProjectReference Include="..\..\Sql\SqlServer\SqlServer.csproj" />
       <ProjectReference Include="..\..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />

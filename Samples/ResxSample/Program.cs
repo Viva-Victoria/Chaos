@@ -2,14 +2,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using VivaVictoria.Chaos;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.Postgres.Extensions;
-using VivaVictoria.Chaos.RawSqlReader.Extensions;
+using VivaVictoria.Chaos.ResxReader.Extensions;
 using VivaVictoria.Chaos.Sql.Models;
 using VivaVictoria.Chaos.Sql.Extensions;
 
-namespace RawSqlSample
+namespace ResxSample
 {
     public class Program
     {
@@ -17,9 +18,12 @@ namespace RawSqlSample
         {
             var services = new ServiceCollection()
                 .AddTransient<ISettings, Settings>()
+                .AddLogging(logging => 
+                    logging
+                        .SetMinimumLevel(LogLevel.Debug)
+                        .AddConsole())
                 .AddChaosPostgres()
-                .AddLogging(logging => logging.AddConsole())
-                .AddChaosRawSql("Migrations")
+                .AddChaosResxReader(typeof(Migrations.Resources))
                 .AddChaosCore();
 
             using (var scope = services.BuildServiceProvider())

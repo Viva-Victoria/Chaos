@@ -10,6 +10,8 @@ namespace VivaVictoria.Chaos.Postgres
 {
     public class PostgresDriver : IDatabaseDriver<PostgresMetadata>
     {
+        public string Name => "Npgsql";
+        
         public IDbConnection Connect(string connectionString, PostgresMetadata metadata) {
             if (metadata.Schema == null)
             {

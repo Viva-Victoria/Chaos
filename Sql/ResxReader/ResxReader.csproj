@@ -2,29 +2,26 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <PackageId>VivaVictoria.Chaos.Logging</PackageId>
+        <PackageId>VivaVictoria.Chaos.ResxReader</PackageId>
         <Version>1.0.0-preview</Version>
-        <PackageTags>VivaVictoria.Chaos.Logging;VivaVictoria;VivaVictoria.Chaos</PackageTags>
+        <PackageTags>VivaVictoria.Chaos;VivaVictoria;Sql;Resx</PackageTags>
         <Description>
-            Logging abstractions for VivaVictoria.Chaos tool.
+            ResX migration reader.
         </Description>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>readme.md</PackageReadmeFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <RootNamespace>VivaVictoria.Chaos.Logging</RootNamespace>
+        <RootNamespace>VivaVictoria.Chaos.ResxReader</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <None Include="../../LICENSE" Pack="true" PackagePath="" />
-    </ItemGroup>
-    
-    <ItemGroup>
         <None Include="readme.md" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.18" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.18" />
+        <ProjectReference Include="..\Sql\Sql.csproj" />
+        <ProjectReference Include="..\..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
     </ItemGroup>
 
 </Project>

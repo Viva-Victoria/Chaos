@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 using VivaVictoria.Chaos.Interfaces;
 using VivaVictoria.Chaos.ReflectionSqlReader.Attributes;
 using VivaVictoria.Chaos.ReflectionSqlReader.Exceptions;
@@ -12,10 +13,12 @@ namespace VivaVictoria.Chaos.ReflectionSqlReader
 {
     public class ReflectMigrationReader : IMigrationReader<Migration>
     {
+        private readonly ILogger<ReflectMigrationReader> logger;
         private readonly Assembly assembly;
 
-        public ReflectMigrationReader(Assembly assembly)
+        public ReflectMigrationReader(ILogger<ReflectMigrationReader> logger, Assembly assembly)
         {
+            this.logger = logger;
             this.assembly = assembly;
         }
 
@@ -27,6 +30,7 @@ namespace VivaVictoria.Chaos.ReflectionSqlReader
 
             foreach (var type in migrationTypes)
             {
+                logger.LogDebug($"Loading {type.FullName}");
                 var info = type.GetCustomAttribute<MigrationAttribute>();
                 if (info == null)
                 {
@@ -35,6 +39,7 @@ namespace VivaVictoria.Chaos.ReflectionSqlReader
                     continue;
                 }
 
+                logger.LogDebug($"Instantiating {type.FullName}");
                 var instance = Activator.CreateInstance(type) as IReflectMigration;
                 result.Add(new Migration {
                     Version = info.Version, 
