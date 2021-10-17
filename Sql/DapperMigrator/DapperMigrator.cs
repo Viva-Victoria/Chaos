@@ -82,10 +82,15 @@ namespace VivaVictoria.Chaos.Dapper
                 {
                     using var conn = Connect();
                     conn.Open();
-                    var transaction = conn.BeginTransaction();
+                    using var transaction = conn.BeginTransaction();
+                    
                     try
                     {
-                        conn.Execute(script, transaction);
+                        logger.LogError(script);
+                        conn.Execute(script, transaction: transaction);
+                    
+                        logger.LogInformation("Migration applied, commiting transaction...");
+                        transaction.Commit();
                     }
                     catch (Exception)
                     {
@@ -93,9 +98,6 @@ namespace VivaVictoria.Chaos.Dapper
                         transaction.Rollback();
                         throw;
                     }
-                    
-                    logger.LogInformation("Migration applied, commiting transaction...");
-                    transaction.Commit();
                     break;
                 }
             }
