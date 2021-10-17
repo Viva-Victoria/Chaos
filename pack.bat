@@ -1,7 +1,7 @@
 @echo off
-set version=1.1.0
-set token=123
-set projects=Logs/Logging/Logging.csproj Logs/Logging.Console/Logging.Console.csproj VivaVictoria.Chaos/VivaVictoria.Chaos.csproj Sql/Sql/Sql.csproj Sql/ClickHouse/ClickHouse.csproj Sql/DapperMigrator/DapperMigrator.csproj Sql/Postgres/Postgres.csproj Sql/SqlServer/SqlServer.csproj Sql/RawSqlReader/RawSqlReader.csproj Sql/ReflectionReader/ReflectionReader.csproj
+set version=1.1.1
+set token=
+set projects=Logs/Logging/Logging.csproj Logs/Logging.Console/Logging.Console.csproj VivaVictoria.Chaos/VivaVictoria.Chaos.csproj Sql/Sql/Sql.csproj Sql/ClickHouse/ClickHouse.csproj Sql/DapperMigrator/DapperMigrator.csproj Sql/Postgres/Postgres.csproj Sql/SqlServer/SqlServer.csproj Sql/RawSqlReader/RawSqlReader.csproj Sql/ReflectionSqlReader/ReflectionSqlReader.csproj
 for %%a in (%projects%) do (
     dotnet pack %%a -o nuget -c Release /p:Version=%version%
 )

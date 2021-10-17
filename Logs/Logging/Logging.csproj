@@ -9,6 +9,7 @@
             Logging abstractions for VivaVictoria.Chaos tool.
         </Description>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RootNamespace>VivaVictoria.Chaos.Logging</RootNamespace>
     </PropertyGroup>

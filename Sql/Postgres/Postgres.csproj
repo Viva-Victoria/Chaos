@@ -9,6 +9,7 @@
             PostgreSQL Migrator for Chaos tool. Based on Chaos.Dapper and Npgsql.
         </Description>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RootNamespace>VivaVictoria.Chaos.Postgres</RootNamespace>
     </PropertyGroup>

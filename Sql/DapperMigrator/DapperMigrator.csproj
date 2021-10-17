@@ -9,6 +9,7 @@
             Migrator for Chaos tool based on Dapper library. Supports any ADO driver by using IDbConnection from IConnectionProvider.
         </Description>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RootNamespace>VivaVictoria.Chaos.Dapper</RootNamespace>
     </PropertyGroup>

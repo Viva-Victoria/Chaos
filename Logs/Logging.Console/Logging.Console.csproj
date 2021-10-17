@@ -9,6 +9,7 @@
             ConsoleLogger for VivaVictoria.Chaos.
         </Description>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RootNamespace>VivaVictoria.Chaos.Logging.Console</RootNamespace>
     </PropertyGroup>
