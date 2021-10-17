@@ -18,7 +18,7 @@ namespace RawSqlSample
             var services = new ServiceCollection()
                 .AddTransient<ISettings, Settings>()
                 .AddChaosPostgres()
-                .AddLogging(logging => logging.AddConsole())
+                .AddLogging(logging => logging.AddConsole().SetMinimumLevel(LogLevel.Debug))
                 .AddChaosRawSql("Migrations")
                 .AddChaosCore();
 

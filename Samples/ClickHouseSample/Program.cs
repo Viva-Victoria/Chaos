@@ -17,7 +17,7 @@ namespace ClickHouseSample
             var services = new ServiceCollection()
                 .AddTransient<ISettings, Settings>()
                 .AddChaosClickHouse()
-                .AddLogging(logging => logging.AddConsole())
+                .AddLogging(logging => logging.AddConsole().SetMinimumLevel(LogLevel.Debug))
                 .AddChaosRawSql("Migrations")
                 .AddChaosCore<Migration>();
 
