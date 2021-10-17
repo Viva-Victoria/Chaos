@@ -9,6 +9,7 @@
             MS SqlServer Migrator for Chaos tool. Based on Chaos.Dapper and System.Data.SqlClient.
         </Description>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RootNamespace>VivaVictoria.Chaos.SqlServer</RootNamespace>
     </PropertyGroup>

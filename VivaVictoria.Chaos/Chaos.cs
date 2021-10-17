@@ -11,7 +11,7 @@ namespace VivaVictoria.Chaos
     public class Chaos<TMigration> : IChaos<TMigration>
         where TMigration : IMigration
     {
-        private readonly ILogger logger;
+        private readonly ILogger<Chaos<TMigration>> logger;
         private readonly ISettings settings;
         private readonly IMigrator<TMigration> migrator;
         private readonly IMigrationReader<TMigration> migrationReader;
@@ -19,7 +19,7 @@ namespace VivaVictoria.Chaos
         private bool ready;
 
         public Chaos(
-            ILogger logger, 
+            ILogger<Chaos<TMigration>> logger, 
             ISettings settings, 
             IMigrator<TMigration> migrator, 
             IMigrationReader<TMigration> migrationReader, 
@@ -34,6 +34,7 @@ namespace VivaVictoria.Chaos
 
         private void PublishEvent(Action<IEventListener> action)
         {
+            logger.LogDebug($"Event publishing...");
             if (settings.ParallelListeners)
             {
                 listeners.AsParallel().ForAll(action);
@@ -42,14 +43,22 @@ namespace VivaVictoria.Chaos
             {
                 listeners.ForEach(action);
             }
+            logger.LogDebug($"Event published");
         }
         
         public IChaos<TMigration> Init(Func<bool> condition = null)
         {
+            logger.LogDebug(condition == null 
+                ? "Initializing Chaos"
+                : "Initializing Chaos - condition needs to be checked");
+            
             if (condition == null || condition())
             {
                 migrator.Init();
                 ready = true;
+                logger.LogDebug($"Chaos ready." +
+                    $"States to be saved: {string.Join(", ", settings.SaveStates)}, " +
+                    $"Parallel publishing {(settings.ParallelListeners ? "enabled" : "disabled")}");
                 PublishEvent(l => l.OnChaosReady());
             }
 
@@ -63,18 +72,12 @@ namespace VivaVictoria.Chaos
 
         public void Migrate()
         {
-            if (!IsReady())
-            {
-                logger.LogDebug("Chaos is not ready. Migrations skipped");
-                return;
-            }
-            
             Migrate(-1);
         }
 
         public void Migrate(long targetVersion)
         {
-            if (!ready)
+            if (!IsReady())
             {
                 logger.LogDebug("Chaos is not ready. Migrations skipped");
                 return;
@@ -83,26 +86,32 @@ namespace VivaVictoria.Chaos
             var migrations = migrationReader.Read().AsEnumerable();
             if (!migrations.Any())
             {
-                logger.LogDebug("No migrations found");
-                PublishEvent(l => l.OnUpToDate());
+                logger.LogWarning("No migrations found");
+                PublishEvent(l => l.OnNoMigrations());
                 return;
             }
             
             migrations = migrations.OrderBy(m => m.Version);
 
             var currentVersion = 0L;
+            
+            logger.LogDebug("Fetching database info...");
             var info = migrator.GetInfo();
-            if (info != null)
+            if (info == null)
+            {
+                logger.LogDebug("No info fetched: database is raw");
+            }
+            else
             {
                 if (info.State != MigrationState.Applied)
                 {
-                    logger.LogCritical(
-                        $"Last migration {info.Version} applied with errors. Manual fix required before new migrations will be applied");
+                    logger.LogCritical($"Last migration {info.Version} applied with errors. Manual fix required before new migrations will be applied");
                     PublishEvent(l => l.OnCorrupted());
                     return;
                 }
 
                 currentVersion = info.Version;
+                logger.LogDebug($"Current database version: {currentVersion}");
             }
             
             var minVersion = migrations.First().Version;
@@ -115,17 +124,19 @@ namespace VivaVictoria.Chaos
             bool downgrade;
             if (targetVersion < currentVersion)
             {
+                logger.LogInformation($"Downgrading to {targetVersion}. {migrations.Count()} migrations will be rolled back");
                 migrations = migrations.Where(m => m.Version > targetVersion);
                 downgrade = true;
             }
             else if (targetVersion > currentVersion)
             {
                 migrations = migrations.Where(m => m.Version > currentVersion && m.Version <= targetVersion);
+                logger.LogInformation($"Upgrading to {targetVersion}. {migrations.Count()} migrations will be applied");
                 downgrade = false;
             }
             else
             {
-                logger.LogDebug("Database is up-to-date");
+                logger.LogInformation("Database is up-to-date");
                 PublishEvent(l => l.OnUpToDate());
                 return;
             }
@@ -156,7 +167,7 @@ namespace VivaVictoria.Chaos
             }
             catch (Exception e)
             {
-                logger.LogError($"Migration {migration.Version} failed", e);
+                logger.LogError($"Migration {version} failed", e);
                 SaveStateIfNeeded(currentVersion, version, MigrationState.Failed, e);
                 throw;
             }

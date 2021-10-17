@@ -9,6 +9,7 @@
             ClickHouse Migrator for Chaos tool. Based on Chaos.Dapper and ClickHouse.Ado.
         </Description>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RootNamespace>VivaVictoria.Chaos.ClickHouse</RootNamespace>
     </PropertyGroup>

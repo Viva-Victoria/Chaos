@@ -6,6 +6,7 @@
         <Version>1.0.0-preview</Version>
         <PackageTags>VivaVictoria.Chaos;VivaVictoria;Sql</PackageTags>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RootNamespace>VivaVictoria.Chaos.Sql</RootNamespace>
     </PropertyGroup>

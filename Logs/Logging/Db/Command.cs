@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
@@ -11,10 +12,10 @@ namespace VivaVictoria.Chaos.Logging.Db
      */
     public class Command : IDbCommand
     {
-        private ILogger logger;
-        private IDbCommand command;
+        private readonly ILogger<ConnectionProvider> logger;
+        private readonly IDbCommand command;
 
-        public Command(ILogger logger, IDbCommand command)
+        public Command(ILogger<ConnectionProvider> logger, IDbCommand command)
         {
             this.logger = logger;
             this.command = command;

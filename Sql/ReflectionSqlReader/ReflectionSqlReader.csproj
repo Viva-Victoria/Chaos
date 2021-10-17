@@ -9,6 +9,7 @@
             Reflect API migrations loader. Allows to declare migration in C# class by annotating it with special attribute.
         </Description>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RootNamespace>VivaVictoria.Chaos.ReflectionSqlReader</RootNamespace>
     </PropertyGroup>

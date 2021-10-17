@@ -11,6 +11,7 @@
             Supported migration definition: Reflect declaration, SQL raw scripts.
         </Description>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>	
     
