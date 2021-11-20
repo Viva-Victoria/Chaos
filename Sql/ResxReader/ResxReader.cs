@@ -11,9 +11,9 @@ namespace VivaVictoria.Chaos.ResxReader
 {
     public class ResxReader : IMigrationReader<Migration>
     {
-        private static readonly Regex UpRegex = new Regex(".*@chaos\\+up.+", RegexOptions.IgnoreCase);
-        private static readonly Regex DownRegex = new Regex(".*@chaos\\+down.+", RegexOptions.IgnoreCase);
-        private static readonly Regex TransactionRegex = new Regex(".*@chaos\\+transaction[ \t=]+(default|one|none).+", RegexOptions.IgnoreCase);
+        private static readonly Regex UpRegex = new Regex(".*--([ \t]*)@chaos\\+up.+", RegexOptions.IgnoreCase);
+        private static readonly Regex DownRegex = new Regex(".*--([ \t]*)@chaos\\+down.+", RegexOptions.IgnoreCase);
+        private static readonly Regex TransactionRegex = new Regex(".*([ \t]*)@chaos\\+transaction[ \t=]+(default|one|none).+", RegexOptions.IgnoreCase);
         private static readonly Regex PropertyNameRegex = new Regex("Migration_(\\d+)_(\\w+)", RegexOptions.IgnoreCase);
 
         private Dictionary<string, string> scripts;

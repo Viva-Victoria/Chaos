@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Sql\SqlLogging\SqlLogging.csproj" />
       <ProjectReference Include="..\..\Sql\Postgres\Postgres.csproj" />
       <ProjectReference Include="..\..\Sql\ReflectionSqlReader\ReflectionSqlReader.csproj" />
       <ProjectReference Include="..\..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />

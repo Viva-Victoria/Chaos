@@ -6,7 +6,7 @@ This library provider `IDatabaseDriver` interface. This interface should be impl
 `IDbConnection` and create/insert/select statements for migration metadata table.
 
 ### Install
-Install via [nuget](https://www.nuget.org/packages/VivaVictoria.Chaos.Dapper/).
+Install via [nuget](https://www.nuget.org/packages/VivaVictoria.Chaos.DapperMigrator/).
 
 ### Usage
 ```c#

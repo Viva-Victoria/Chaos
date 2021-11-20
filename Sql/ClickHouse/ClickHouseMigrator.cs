@@ -7,7 +7,6 @@ using VivaVictoria.Chaos.ClickHouse.Interfaces;
 using VivaVictoria.Chaos.Enums;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
-using VivaVictoria.Chaos.Logging.Db;
 using VivaVictoria.Chaos.Logging.Interfaces;
 using VivaVictoria.Chaos.Models;
 using VivaVictoria.Chaos.Sql.Enums;
@@ -22,7 +21,11 @@ namespace VivaVictoria.Chaos.ClickHouse
         private readonly IClickHouseMetadata metadata;
         private readonly IConnectionProvider connectionProvider;
 
-        public ClickHouseMigrator(IEnumerable<ISettings> settings, ILogger<ClickHouseMigrator> logger, IClickHouseMetadata metadata, IConnectionProvider connectionProvider)
+        public ClickHouseMigrator(
+            IEnumerable<ISettings> settings, 
+            ILogger<ClickHouseMigrator> logger, 
+            IClickHouseMetadata metadata, 
+            IConnectionProvider connectionProvider)
         {
             this.settings = settings.RequireService<ISettings, IClickHouseSettings>(false);
             this.logger = logger;

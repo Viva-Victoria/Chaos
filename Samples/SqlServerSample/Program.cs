@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
+using VivaVictoria.Chaos.Logging.Extensions;
 using VivaVictoria.Chaos.RawSqlReader.Extensions;
 using VivaVictoria.Chaos.Sql.Models;
 using VivaVictoria.Chaos.SqlServer.Extensions;
@@ -16,6 +17,9 @@ namespace SqlServerSample
         {
             var services = new ServiceCollection()
                 .AddTransient<ISettings, Settings>()
+                .AddChaosConnectionLogging(b => b.
+                    Level(LogLevel.Information).
+                    Format("{timestamp}\n{script}"))
                 .AddChaosSqlServer<MySqlServerMetadata>()
                 .AddLogging(logging => logging.AddConsole().SetMinimumLevel(LogLevel.Debug))
                 .AddChaosRawSql("Migrations")

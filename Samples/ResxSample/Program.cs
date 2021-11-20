@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using VivaVictoria.Chaos;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
+using VivaVictoria.Chaos.Logging.Extensions;
 using VivaVictoria.Chaos.Postgres.Extensions;
 using VivaVictoria.Chaos.ResxReader.Extensions;
 using VivaVictoria.Chaos.Sql.Models;
@@ -18,10 +19,12 @@ namespace ResxSample
         {
             var services = new ServiceCollection()
                 .AddTransient<ISettings, Settings>()
-                .AddLogging(logging => 
-                    logging
-                        .SetMinimumLevel(LogLevel.Debug)
-                        .AddConsole())
+                .AddLogging(logging => logging.
+                    SetMinimumLevel(LogLevel.Debug).
+                    AddConsole())
+                .AddChaosConnectionLogging(b => b.
+                    Level(LogLevel.Information).
+                    Format("{timestamp}\n{script}"))
                 .AddChaosPostgres()
                 .AddChaosResxReader(typeof(Migrations.Resources))
                 .AddChaosCore();

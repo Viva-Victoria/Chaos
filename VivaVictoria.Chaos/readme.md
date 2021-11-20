@@ -1,20 +1,11 @@
 ﻿# VivaVictoria.Chaos
-### Universal version migration tool for .NET
-
-### Status
-version 1.1.1 - _**unstable**_
-
-### Supported platforms:
-- .NET Core 3.1
-- .NET 5+
 
 ### Structure 
-Chaos is simple database-independent migration tool. Independence from the DBMS and the connection method is 
+Chaos is complex database-independent migration tool. Independence from the DBMS and the connection method is 
 achieved due to the following mechanism:  
 base tool class is `Chaos`, it manages process of migration and requires next components:
-* `ILogger` for logging actions and SQL statements,
-* `IMigrator` for receiving / saving metadata and applying migration scripts,
-* `IMigrationReader` for reading list of migrations stored in `MigrationInfo` model.
+* `IMigrationReader` for reading list of migrations stored in `IMigration` model,
+* `IMigrator` for receiving / saving metadata and applying migration scripts.
 
 In turn, some `IMigrator` or `IMigrationReader` implementations can be dependent on `ISettings` instance. `ISettings` provides 
 `ConnectionString` and default `MigrationMode`.  
@@ -22,30 +13,7 @@ In turn, some `IMigrator` or `IMigrationReader` implementations can be dependent
 * `Default` - default mode from `ISettings`
 * `One` - run each migration and save metadata in one migration,
 * `None` - do not use migrations.  
-**Note:** `MigrationMode` is just recommendation and will be used only if `IMigrator` and `DBMS` supports specified mode.
-
-### Sample
-Simple example with PostgreSQL, ConsoleLogger and Reflection reader:
-```c#
-var services = new ServiceCollection()
-
-//register settings
-services.AddTransient<ISettings, Settings>();
-//register PostgreSQL or other RDBMS driver
-services.RegisterChaosPostgres();
-            
-//add Reflection support with project Assembly
-services.RegisterChaosReflection(typeof(Program).Assembly);
-```
-Now you can request IChaos service and run migrations.
-```c#
-//build chaos via DI container            
-using (var scope = services.BuildServiceProvider())
-{
-    var chaos = scope.GetChaos();
-    chaos.Init().Migrate();
-}
-```
+**Note:** `MigrationMode` is just recommendation and will be used only if `IMigrator` and `RDBMS` supports specified mode.
 
 ### Data Race on replicated services
 ##### Problem
@@ -74,25 +42,3 @@ Now, define environment variable REPLICA_MASTER only on your master replica cont
 **Note:** it is not ideal solution, because some of your replicas can be available before database will be migrated and
 some requests to database may be failed. But if you use blue-green deploy with 'usual' solution you can receive same errors
 when blue container is still exists and green container runs migrations. Blue container can fail on database requests. 
-
-### Total nuget packages list
-`VivaVictoria.Chaos`  
-`VivaVictoria.Chaos.ClickHouse`  
-`VivaVictoria.Chaos.DapperMigrator`  
-`VivaVictoria.Chaos.Logging`  
-`VivaVictoria.Chaos.Postgres`  
-`VivaVictoria.Chaos.RawSqlReader`  
-`VivaVictoria.Chaos.ReflectionSqlReader`  
-`VivaVictoria.Chaos.ResxReader`
-`VivaVictoria.Chaos.Sql`  
-`VivaVictoria.Chaos.SqlServer`  
-
-## Contributing
-1. If you creates new project, please follow the following structure:
-* Extensions - all static classes with extension methods
-* Interfaces - for public project interfaces
-* Models - for all models
-* Enums - for all enums
-* Service implementations and readme.md should be placed in project root
-2. Please, throw Exceptions only if you receive fatal error and need to abort migration process.
-3. Support readme actuality and create samples for new projects.

@@ -7,7 +7,6 @@ using VivaVictoria.Chaos.Dapper.Interfaces;
 using VivaVictoria.Chaos.Enums;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
-using VivaVictoria.Chaos.Logging.Db;
 using VivaVictoria.Chaos.Logging.Interfaces;
 using VivaVictoria.Chaos.Models;
 using VivaVictoria.Chaos.Sql.Enums;
@@ -89,12 +88,12 @@ namespace VivaVictoria.Chaos.Dapper
                         logger.LogError(script);
                         conn.Execute(script, transaction: transaction);
                     
-                        logger.LogInformation("Migration applied, commiting transaction...");
+                        logger.LogInformation("Commiting transaction...");
                         transaction.Commit();
                     }
                     catch (Exception)
                     {
-                        logger.LogError("Migration failed, rolling back transaction...");
+                        logger.LogError("Rolling back transaction...");
                         transaction.Rollback();
                         throw;
                     }

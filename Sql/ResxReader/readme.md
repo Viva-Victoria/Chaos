@@ -15,25 +15,25 @@ Invalid name: `A1.create_test_table`.
 **NOTE:** ResxReader is fully case insensitive and allows to ignore case at annotations. For example, this is valid 
 `ChaosResX` script file: 
 ```sql
-@cHAos+down
+-- @cHAos+down
 drop table test;
-@chaos+UP
+-- @chaos+UP
 create table test(id integer primary key);
 ```
 
 ### Script format
 You can use any SQL-like format depending on your RDBMS, but you must annotate scripts in file with specified format:
 ```sql
-@chaos+up
-/* up script, required */
+-- @chaos+up
+-- up script, required
 create table test;
 
-@chaos+down
-/* down script, required */
+-- @chaos+down
+-- down script, required
 drop table test;
 
-@chaos+transaction one
-/* transaction parameter - one, none or default. Optional */
+-- @chaos+transaction one
+-- transaction parameter - one, none or default. Optional
 ```
 **NOTE:** the order of scripts and parameters does not matter. It is possible to define down script, then transaction param,
 then up script or any other combination. 

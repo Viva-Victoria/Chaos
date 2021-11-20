@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using VivaVictoria.Chaos.ClickHouse.Extensions;
 using VivaVictoria.Chaos.Extensions;
 using VivaVictoria.Chaos.Interfaces;
+using VivaVictoria.Chaos.Logging.Extensions;
 using VivaVictoria.Chaos.RawSqlReader.Extensions;
 using VivaVictoria.Chaos.Sql.Models;
 
@@ -16,8 +17,13 @@ namespace ClickHouseSample
         {
             var services = new ServiceCollection()
                 .AddTransient<ISettings, Settings>()
+                .AddChaosConnectionLogging(b => b.
+                    Level(LogLevel.Information).
+                    Format("{timestamp}\n{script}"))
                 .AddChaosClickHouse()
-                .AddLogging(logging => logging.AddConsole().SetMinimumLevel(LogLevel.Debug))
+                .AddLogging(logging => logging.
+                    AddConsole().
+                    SetMinimumLevel(LogLevel.Debug))
                 .AddChaosRawSql("Migrations")
                 .AddChaosCore<Migration>();
 

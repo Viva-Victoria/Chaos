@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Sql\ClickHouse\ClickHouse.csproj" />
+      <ProjectReference Include="..\..\Sql\SqlLogging\SqlLogging.csproj" />
       <ProjectReference Include="..\..\Sql\RawSqlReader\RawSqlReader.csproj" />
       <ProjectReference Include="..\..\VivaVictoria.Chaos\VivaVictoria.Chaos.csproj" />
     </ItemGroup>
